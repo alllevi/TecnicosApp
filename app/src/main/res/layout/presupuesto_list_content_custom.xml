@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/abc_background_cache_hint_selector_material_dark">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/my_border"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:layout_marginTop="0dp"
+                >
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Videovigilancia"
+                        android:id="@+id/idCategoria"
+                        android:textColor="@color/abc_primary_text_material_light"
+                        android:layout_marginLeft="@dimen/text_margin"
+                        android:layout_marginTop="@dimen/text_margin"
+                        android:layout_marginRight="@dimen/text_margin" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Quart de poblet"
+                        android:id="@+id/idMunicipio"
+                        android:gravity="right"
+                        android:textColor="@color/abc_primary_text_material_light"
+                        android:layout_marginLeft="@dimen/text_margin"
+                        android:layout_marginTop="@dimen/text_margin"
+                        android:layout_marginRight="@dimen/text_margin" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="(Valencia)"
+                    android:id="@+id/idProvincia"
+                    android:gravity="right"
+                    android:layout_marginRight="@dimen/text_margin"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/abc_primary_text_material_light" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Buenas tardes! Os dejo este aviso de la Alcaldía del Ayuntamiento deVallanca, es para pedir un presupuesto para unos trabajos en la antena-repetidor del municipio, podrías darme un email a dónde hacer llegar lo que necesitamos? Gracias!!"
+                    android:id="@+id/idAveria"
+                    android:nestedScrollingEnabled="false"
+                    android:textColor="@color/abc_primary_text_material_light" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#797979"
+                android:layout_marginBottom="0dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="¡Gratis!"
+                    android:id="@+id/idPrecio"
+                    android:layout_margin="10dp"
+                    android:textColor="@color/abc_primary_text_material_light" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Hace 10 días"
+                    android:id="@+id/idHaceDias"
+                    android:layout_margin="10dp"
+                    android:gravity="right"
+                    android:textColor="@color/abc_primary_text_material_light" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/id" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/content" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

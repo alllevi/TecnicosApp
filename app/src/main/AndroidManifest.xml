@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.manomanitas.tecnicosapp">
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.REQUEST_READ_CONTACTS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.manomanitas.tecnicosapp.MainActivity" />
+        </activity>
+        <activity
+            android:name=".RegistroActivity"
+            android:label="@string/title_activity_registro">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.manomanitas.tecnicosapp.MainActivity" />
+        </activity>
+        <activity android:name=".MenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.manomanitas.tecnicosapp.MainActivity" />
+        </activity>
+        <activity
+            android:name=".EditarPerfilActivity"
+            android:label="@string/title_activity_editar_perfil">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.manomanitas.tecnicosapp.MenuActivity" />
+        </activity>
+        <activity
+            android:name=".PresupuestoListActivity"
+            android:label="@string/title_presupuesto_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".PresupuestoDetailActivity"
+            android:label="@string/title_presupuesto_detail"
+            android:parentActivityName=".PresupuestoListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.manomanitas.tecnicosapp.PresupuestoListActivity" />
+        </activity>
+    </application>
+
+</manifest>

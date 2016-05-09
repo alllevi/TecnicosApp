@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name">Manomanitas</string>
+    <string name="title_activity_login">Entrar</string>
+    <string name="title_activity_registro">Formulario registro</string>
+    <string name="title_activity_editar_perfil">Editar Perfil</string>
+
+
+    <!-- Strings related to Menu principal -->
+    <string name="main_entrar">Entrar</string>
+    <string name="main_registrarse">Registrarse</string>
+
+
+    <!-- Strings related to login -->
+    <string name="prompt_email_signIn">Email</string>
+    <string name="prompt_password_signIn">Password</string>
+    <string name="action_sign_in_signIn">Entrar</string>
+    <string name="action_sign_in_short_signIn">Entrar</string>
+    <string name="error_invalid_email_signIn">La dirección email no es válida</string>
+    <string name="error_invalid_password_signIn">La contraseña no es válida</string>
+    <string name="error_incorrect_password_signIn">La contraseña es incorrecta</string>
+    <string name="error_field_required_signIn">Este campo es requerido</string>
+    <string name="permission_rationale_signIn">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!-- Strings related to Registro -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Registro</string>
+    <string name="action_sign_in_short">Registro</string>
+    <string name="error_invalid_email">La dirección email no es válida</string>
+    <string name="error_invalid_password">La contraseña no es válida</string>
+    <string name="error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="error_field_required">Este campo es requerido</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="prompt_nombre">Nombre</string>
+    <string name="prompt_dni">DNI</string>
+    <string name="prompt_telefono">Teléfono</string>
+    <string name="prompt_CodigoPostal">Código Postal</string>
+    <string name="prompt_radio">Radio desplazamiento (Km)</string>
+
+    <string name="serviciosOfrecidos_registro">¿Qué servicios ofreces?</string>
+    <string name="servicio_elec">Electricidad</string>
+    <string name="servicio_font">Fontanería</string>
+    <string name="servicio_cerr">Cerrajero</string>
+    <string name="servicio_video">Videovigilancia</string>
+    <string name="servicio_ant">Antenista</string>
+    <string name="servicio_telef">Telefonillo</string>
+    <string name="servicio_clima">Clima</string>
+    <string name="servicio_calent">Calentador</string>
+    <string name="servicio_calef">Calefacción</string>
+    <string name="servicio_alarm">Alarma</string>
+    <string name="servicio_electro">Electro</string>
+
+    <!-- Strings related to Menu tecnico -->
+    <string name="menu_comprados">Comprados</string>
+    <string name="menu_perfil">Mi perfil</string>
+    <string name="menu_presupuestos">Presupuestos</string>
+    <string name="menu_volver">Volver</string>
+    <string name="avisos_registro">Deseo recibir nuevos avisos de trabajos en mi correo electrónico</string>
+
+
+    <string-array name="planets_array">
+        <item>Seleccione provincia</item>
+        <item>Valencia</item>
+        <item>Murcia</item>
+        <item>Maadrid</item>
+        <item>Cantabria</item>
+        <item>Andalucia</item>
+        <item>Castilla la mancha</item>
+        <item>Galicia</item>
+    </string-array>
+    <string name="title_activity_comprados">CompradosActivity</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="title_presupuesto_list">Presupuestos</string>
+    <string name="title_presupuesto_detail">Presupuesto Detail</string>
+
+</resources>
