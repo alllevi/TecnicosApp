@@ -1,12 +1,12 @@
-package com.manomanitas.tecnicosapp;
+package com.manomanitas.tecnicosapp.dummy;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.manomanitas.tecnicosapp.dummy.DummyContent;
+import com.manomanitas.tecnicosapp.R;
 
 import java.util.List;
 
@@ -33,6 +33,10 @@ public class PresupuestoListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +56,14 @@ public class PresupuestoListActivity extends AppCompatActivity {
             }
         });
 
-        View recyclerView = findViewById(R.id.presupuesto_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.presupuesto_list);
+        //assert recyclerView != null;
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new myAdapterPresupuestos(DummyContent.ITEMS);
+        mRecyclerView.setAdapter(mAdapter);
+
+        //setupRecyclerView((RecyclerView) recyclerView);
 
         //Esto es con lo de la tablet
         if (findViewById(R.id.presupuesto_detail_container) != null) {
@@ -66,11 +75,95 @@ public class PresupuestoListActivity extends AppCompatActivity {
         }
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+   /* private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+    }*/
+
+    public class myAdapterPresupuestos extends RecyclerView.Adapter<myAdapterPresupuestos.ViewHolder> {
+
+        private final List<DummyContent.DummyItem> mValues;
+
+
+        // Provide a suitable constructor (depends on the kind of dataset)
+        public myAdapterPresupuestos(List<DummyContent.DummyItem> items) {
+            mValues = items;
+        }
+
+        // Create new views (invoked by the layout manager)
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent,
+                                             int viewType) {
+            // create a new view
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.presupuesto_list_content_custom, parent, false);
+            // set the view's size, margins, paddings and layout parameters
+
+            ViewHolder vh = new ViewHolder(v);
+            return vh;
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        @Override
+        public void onBindViewHolder(final ViewHolder holder, int position) {
+            // - get element from your dataset at this position
+            // - replace the contents of the view with that element
+            holder.mItem = mValues.get(position);
+            holder.mCategoria.setText(mValues.get(position).id);
+            holder.mMunicipio.setText(mValues.get(position).id);
+            holder.mProvincia.setText(mValues.get(position).id);
+            holder.mAveria.setText(mValues.get(position).id);
+            holder.mPrecio.setText(mValues.get(position).id);
+            holder.mHaceDias.setText(mValues.get(position).id);
+
+
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, PresupuestoDetailActivity.class);
+                    intent.putExtra(PresupuestoDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                    context.startActivity(intent);
+                }
+            });
+
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        @Override
+        public int getItemCount() {
+            return mValues.size();
+        }
+
+        // Provide a reference to the views for each data item
+        // Complex data items may need more than one view per item, and
+        // you provide access to all the views for a data item in a view holder
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public final View mView;
+            public DummyContent.DummyItem mItem;
+
+            public final TextView mCategoria;
+            public final TextView mMunicipio;
+            public final TextView mProvincia;
+            public final TextView mAveria;
+            public final TextView mPrecio;
+            public final TextView mHaceDias;
+
+            public ViewHolder(View view) {
+                super(view);
+                mView = view;
+
+                mCategoria = (TextView) view.findViewById(R.id.idCategoria);
+                mMunicipio = (TextView) view.findViewById(R.id.idMunicipio);
+                mProvincia = (TextView) view.findViewById(R.id.idProvincia);
+                mAveria = (TextView) view.findViewById(R.id.idAveria);
+                mPrecio = (TextView) view.findViewById(R.id.idPrecio);
+                mHaceDias = (TextView) view.findViewById(R.id.idHaceDias);
+            }
+        }
     }
 
-    public class SimpleItemRecyclerViewAdapter
+    /*public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final List<DummyContent.DummyItem> mValues;
@@ -83,8 +176,8 @@ public class PresupuestoListActivity extends AppCompatActivity {
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.presupuesto_list_content, parent, false);
-            /*View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.presupuesto_list_content, parent, false);*/
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.presupuesto_list_content, parent, false);
             return new ViewHolder(view);
         }
 
@@ -127,12 +220,12 @@ public class PresupuestoListActivity extends AppCompatActivity {
             public final TextView mContentView;
             public DummyContent.DummyItem mItem;
 
-            /*public final TextView mCategoria;
+            public final TextView mCategoria;
             public final TextView mMunicipio;
             public final TextView mProvincia;
             public final TextView mAveria;
             public final TextView mPrecio;
-            public final TextView mHaceDias;*/
+            public final TextView mHaceDias;
 
 
             public ViewHolder(View view) {
@@ -141,12 +234,12 @@ public class PresupuestoListActivity extends AppCompatActivity {
                 mIdView = (TextView) view.findViewById(R.id.id);
                 mContentView = (TextView) view.findViewById(R.id.content);
 
-                /*mCategoria= (TextView) view.findViewById(R.id.idCategoria);
+                mCategoria= (TextView) view.findViewById(R.id.idCategoria);
                 mMunicipio= (TextView) view.findViewById(R.id.idMunicipio);
                 mProvincia= (TextView) view.findViewById(R.id.idProvincia);
                 mAveria= (TextView) view.findViewById(R.id.idAveria);
                 mPrecio= (TextView) view.findViewById(R.id.idPrecio);
-                mHaceDias= (TextView) view.findViewById(R.id.idHaceDias);*/
+                mHaceDias= (TextView) view.findViewById(R.id.idHaceDias);
             }
 
             @Override
@@ -155,5 +248,5 @@ public class PresupuestoListActivity extends AppCompatActivity {
 
             }
         }
-    }
+    }*/
 }

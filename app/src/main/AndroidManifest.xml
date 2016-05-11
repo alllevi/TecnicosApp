@@ -48,18 +48,19 @@
                 android:value="com.manomanitas.tecnicosapp.MenuActivity" />
         </activity>
         <activity
-            android:name=".PresupuestoListActivity"
+            android:name=".dummy.PresupuestoListActivity"
             android:label="@string/title_presupuesto_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".PresupuestoDetailActivity"
+            android:name=".dummy.PresupuestoDetailActivity"
             android:label="@string/title_presupuesto_detail"
-            android:parentActivityName=".PresupuestoListActivity"
+            android:parentActivityName=".dummy.PresupuestoListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.manomanitas.tecnicosapp.PresupuestoListActivity" />
+                android:value=".dummy.PresupuestoListActivity" />
         </activity>
+        <activity android:name=".PresupuestosActivity"></activity>
     </application>
 
 </manifest>

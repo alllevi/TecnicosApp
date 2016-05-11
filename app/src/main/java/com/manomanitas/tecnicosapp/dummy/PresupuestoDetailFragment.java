@@ -1,4 +1,4 @@
-package com.manomanitas.tecnicosapp;
+package com.manomanitas.tecnicosapp.dummy;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.manomanitas.tecnicosapp.dummy.DummyContent;
+import com.manomanitas.tecnicosapp.R;
 
 /**
  * A fragment representing a single Presupuesto detail screen.

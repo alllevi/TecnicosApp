@@ -9,7 +9,8 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.manomanitas.tecnicosapp.PresupuestoListActivity"
+    tools:context=".dummy.PresupuestoListActivity"
     tools:listitem="@layout/presupuesto_list_content"/>
-    <!--tools:listitem="@layout/presupuesto_list_content"-->
+    <!--tools:listitem="@layout/presupuesto_list_content"/>-->
+
 
