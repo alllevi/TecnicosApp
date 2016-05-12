@@ -118,8 +118,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isEmailValid(String email) {
-
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        return true;
+        //return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     private boolean isPasswordValid(String password) {
