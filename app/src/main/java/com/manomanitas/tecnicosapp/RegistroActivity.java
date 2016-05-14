@@ -3,6 +3,7 @@ package com.manomanitas.tecnicosapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -21,7 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 
-public class RegistroActivity extends AppCompatActivity {
+public class RegistroActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -40,6 +42,7 @@ public class RegistroActivity extends AppCompatActivity {
     private Spinner spinnerProvincia;
     private Spinner spinnerMunicipio;
 
+    private TextView tv_servicios;
     private CheckBox cElectricidad;
     private CheckBox cFontaneria;
     private CheckBox cCerrajero;
@@ -57,12 +60,6 @@ public class RegistroActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
 
-    /*TAREAS
-    * Datos reales spinners
-    * Seleccion de spinners
-    * Al menos un checkBox
-    * Paso de datos
-    * */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +78,7 @@ public class RegistroActivity extends AppCompatActivity {
         spinnerProvincia = (Spinner) findViewById(R.id.provincia_registro);
         spinnerMunicipio = (Spinner) findViewById(R.id.municipio_registro);
 
+        tv_servicios = (TextView) findViewById(R.id.serviciosReg_textView);
         cElectricidad = (CheckBox) findViewById(R.id.electricidad_checkBox);
         cFontaneria = (CheckBox) findViewById(R.id.fontaneria_checkBox);
         cCerrajero = (CheckBox) findViewById(R.id.cerrajeria_checkBox);
@@ -109,6 +107,9 @@ public class RegistroActivity extends AppCompatActivity {
             }
         });
 
+        loadSpinnerProvincias();
+
+
         Button mEmailSignInButton = (Button) findViewById(R.id.registro_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -117,23 +118,70 @@ public class RegistroActivity extends AppCompatActivity {
             }
         });
 
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapterP = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinnerProvincia.setAdapter(adapterP);
 
-
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapterM = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapterM.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinnerMunicipio.setAdapter(adapterM);
     }
+
+
+    /**
+     * Populate the Spinner.
+     */
+    private void loadSpinnerProvincias() {
+
+        // Create an ArrayAdapter using the string array and a default spinner
+        // layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.provincias, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        this.spinnerProvincia.setAdapter(adapter);
+
+        // This activity implements the AdapterView.OnItemSelectedListener
+        this.spinnerProvincia.setOnItemSelectedListener(this);
+        this.spinnerMunicipio.setOnItemSelectedListener(this);
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int pos,
+                               long id) {
+
+        switch (parent.getId()) {
+            case R.id.provincia_registro:
+
+                // Retrieves an array
+                TypedArray arrayLocalidades = getResources().obtainTypedArray(
+                        R.array.array_provincia_a_localidades);
+                CharSequence[] localidades = arrayLocalidades.getTextArray(pos);
+                arrayLocalidades.recycle();
+
+                // Create an ArrayAdapter using the string array and a default
+                // spinner layout
+                ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
+                        this, android.R.layout.simple_spinner_item,
+                        android.R.id.text1, localidades);
+
+                // Specify the layout to use when the list of choices appears
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                // Apply the adapter to the spinner
+                this.spinnerMunicipio.setAdapter(adapter);
+
+                break;
+
+            case R.id.municipio_registro:
+
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Callback method to be invoked when the selection disappears from this
+        // view. The selection can disappear for instance when touch is
+        // activated or when the adapter becomes empty.
+    }
+
 
     /**
      * Attempts to register the account specified by the login form.
@@ -153,6 +201,7 @@ public class RegistroActivity extends AppCompatActivity {
         mTelefonoView.setError(null);
         mCodigoPostalView.setError(null);
         mRadioView.setError(null);
+        tv_servicios.setError(null);
 
 
         // Store values at the time of the login attempt.
@@ -163,7 +212,22 @@ public class RegistroActivity extends AppCompatActivity {
         String telefono = mTelefonoView.getText().toString();
         String codigoPostal = mCodigoPostalView.getText().toString();
         String radio = mRadioView.getText().toString();
-        //faltan elementos
+
+        String provincia = spinnerProvincia.getSelectedItem().toString();
+        String municipio = spinnerMunicipio.getSelectedItem().toString();
+
+        boolean electricidad = cElectricidad.isChecked();
+        boolean fontaneria = cFontaneria.isChecked();
+        boolean cerrajero = cCerrajero.isChecked();
+        boolean video = cVideo.isChecked();
+        boolean antenista = cAntenista.isChecked();
+        boolean telefonillo = cTelefonillo.isChecked();
+        boolean clima = cClima.isChecked();
+        boolean calentador = cCalentador.isChecked();
+        boolean calefaccion = cCalefaccion.isChecked();
+        boolean alarma = cAlarma.isChecked();
+        boolean electro = cElectro.isChecked();
+        boolean aviso = cAvisos.isChecked();
 
         boolean cancel = false;
         View focusView = null;
@@ -180,13 +244,13 @@ public class RegistroActivity extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password_signIn));
+            mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         }
 
         if (TextUtils.isEmpty(nombre)) {
-            mNombreView.setError(getString(R.string.error_invalid_password_signIn));
+            mNombreView.setError(getString(R.string.error_field_required));
             focusView = mNombreView;
             cancel = true;
         }
@@ -196,42 +260,42 @@ public class RegistroActivity extends AppCompatActivity {
             focusView = mDniView;
             cancel = true;
         } else if (!isDniValid(dni)) {
-            mDniView.setError(getString(R.string.error_invalid_email));
+            mDniView.setError(getString(R.string.error_incorrect_dni));
             focusView = mDniView;
             cancel = true;
         }
 
         if (TextUtils.isEmpty(telefono)) {
-            mTelefonoView.setError(getString(R.string.error_invalid_password_signIn));
+            mTelefonoView.setError(getString(R.string.error_field_required));
             focusView = mTelefonoView;
             cancel = true;
         } else if (!isTelefonoValid(telefono)) {
-            mTelefonoView.setError(getString(R.string.error_invalid_password_signIn));
+            mTelefonoView.setError(getString(R.string.error_incorrect_phone));
             focusView = mTelefonoView;
             cancel = true;
         }
 
         if (TextUtils.isEmpty(codigoPostal)) {
-            mCodigoPostalView.setError(getString(R.string.error_invalid_password_signIn));
+            mCodigoPostalView.setError(getString(R.string.error_field_required));
             focusView = mCodigoPostalView;
             cancel = true;
         } else if (!isCodigoPostalValid(codigoPostal)) {
-            mCodigoPostalView.setError(getString(R.string.error_invalid_password_signIn));
+            mCodigoPostalView.setError(getString(R.string.error_incorrect_postalCode));
             focusView = mCodigoPostalView;
             cancel = true;
         }
 
         if (TextUtils.isEmpty(radio)) {
-            mRadioView.setError(getString(R.string.error_invalid_password_signIn));
-            focusView = mRadioView;
-            cancel = true;
-        } else if (!isRadioValid(radio)) {
-            mRadioView.setError(getString(R.string.error_invalid_password_signIn));
+            mRadioView.setError(getString(R.string.error_field_required));
             focusView = mRadioView;
             cancel = true;
         }
 
-        //spineers y al menos un check
+        boolean checked = !electricidad && !fontaneria && !cerrajero && !video && !antenista && !telefonillo && !clima && !calentador && !calefaccion && !alarma && !electro;
+
+        if (checked) {
+            tv_servicios.setError("");
+        }
 
 
         if (cancel) {
@@ -240,7 +304,7 @@ public class RegistroActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
+            // perform the user registration attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password, nombre, dni, telefono, codigoPostal, radio);
             mAuthTask.execute((Void) null);
@@ -258,15 +322,14 @@ public class RegistroActivity extends AppCompatActivity {
 
     private boolean isTelefonoValid(String telefono) {
         return true;
+        //return Patterns.PHONE.matcher(telefono).matches();
     }
 
     private boolean isCodigoPostalValid(String cp) {
         return true;
+        //return cp.matches("^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$");
     }
 
-    private boolean isRadioValid(String radio) {
-        return true;
-    }
 
     /**
      * Shows the progress UI and hides the login form.

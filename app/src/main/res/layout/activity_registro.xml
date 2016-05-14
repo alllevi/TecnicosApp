@@ -160,7 +160,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/serviciosOfrecidos_registro"
                     android:textSize="20sp"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                    android:textColor="@color/abc_primary_text_material_light"
+                    android:id="@+id/serviciosReg_textView" />
 
                 <LinearLayout
                     android:orientation="horizontal"
