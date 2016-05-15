@@ -87,8 +87,8 @@ public class LoginActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password_signIn));
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required_signIn));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -120,15 +120,6 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isEmailValid(String email) {
         return true;
         //return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    private boolean isPasswordValid(String password) {
-
-        Boolean b = false;
-        if (!password.isEmpty()) {
-            b = true;
-        }
-        return b;
     }
 
     /**

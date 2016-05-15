@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -291,10 +292,34 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
             cancel = true;
         }
 
+        if (!isProvinciaValid(provincia)) {
+            TextView errorText = (TextView) spinnerProvincia.getSelectedView();
+            errorText.setError("");
+            errorText.setTextColor(Color.RED);//just to highlight that this is an error
+            errorText.setText(R.string.provincia_prompt);//changes the selected item text to this
+
+            focusView = spinnerProvincia;
+            cancel = true;
+        }
+
+        if (!isMunicipioValid(municipio)) {
+
+            TextView errorText = (TextView) spinnerMunicipio.getSelectedView();
+            errorText.setError("");
+            errorText.setTextColor(Color.RED);//just to highlight that this is an error
+            errorText.setText(R.string.localidad_prompt);//changes the selected item text to this
+
+            focusView = spinnerMunicipio;
+            cancel = true;
+        }
+
+
         boolean checked = !electricidad && !fontaneria && !cerrajero && !video && !antenista && !telefonillo && !clima && !calentador && !calefaccion && !alarma && !electro;
 
         if (checked) {
             tv_servicios.setError("");
+            focusView = tv_servicios;
+            cancel = true;
         }
 
 
@@ -303,10 +328,11 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
             // form field with an error.
             focusView.requestFocus();
         } else {
+            String s = String.valueOf(electricidad);
             // Show a progress spinner, and kick off a background task to
             // perform the user registration attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password, nombre, dni, telefono, codigoPostal, radio);
+            mAuthTask = new UserLoginTask(email, password, nombre, dni, telefono, codigoPostal, radio, provincia, municipio, String.valueOf(electricidad), String.valueOf(fontaneria), String.valueOf(cerrajero), String.valueOf(video), String.valueOf(antenista), String.valueOf(telefonillo), String.valueOf(clima), String.valueOf(calentador), String.valueOf(calefaccion), String.valueOf(alarma), String.valueOf(electro), String.valueOf(aviso));
             mAuthTask.execute((Void) null);
         }
     }
@@ -317,7 +343,8 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
     }
 
     private boolean isDniValid(String dni) {
-        return true;
+
+        return dni.matches("(([X-Z]{1})([-]?)(\\d{7})([-]?)([A-Z]{1}))|((\\d{8})([-]?)([A-Z]{1}))");
     }
 
     private boolean isTelefonoValid(String telefono) {
@@ -328,6 +355,17 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
     private boolean isCodigoPostalValid(String cp) {
         return true;
         //return cp.matches("^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$");
+    }
+
+    private boolean isProvinciaValid(String provincia) {
+        boolean b = provincia.equals("Seleccione una provincia");
+        return !b;
+    }
+
+    private boolean isMunicipioValid(String municipio) {
+        boolean b = municipio.equals("Seleccione un municipio");
+        return !b;
+
     }
 
 
@@ -380,8 +418,26 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
         private final String mCodigoPostal;
         private final String mRadio;
 
+        private final String mProvincia;
+        private final String mMunicipio;
 
-        UserLoginTask(String email, String password, String nombre, String dni, String telefono, String cp, String radio) {
+        // true en el caso de que sí que ofrezca el servicio, false si no lo ofrece
+        private final String mElectricidad;
+        private final String mFontaneria;
+        private final String mCerrajero;
+        private final String mVideo;
+        private final String mAntenista;
+        private final String mTelefonillo;
+        private final String mClima;
+        private final String mCalentador;
+        private final String mCalefaccion;
+        private final String mAlarma;
+        private final String melectro;
+
+        private final String mAvisos;
+
+
+        UserLoginTask(String email, String password, String nombre, String dni, String telefono, String cp, String radio, String provincia, String municipio, String electricidad, String fontaneria, String cerrajero, String video, String antentista, String telefonillo, String clima, String calentador, String calefaccion, String alarma, String electro, String avisos) {
             mEmail = email;
             mPassword = password;
             mNombre = nombre;
@@ -389,6 +445,20 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
             mTelefono = telefono;
             mCodigoPostal = cp;
             mRadio = radio;
+            mProvincia = provincia;
+            mMunicipio = municipio;
+            mElectricidad = electricidad;
+            mFontaneria = fontaneria;
+            mCerrajero = cerrajero;
+            mVideo = video;
+            mAntenista = antentista;
+            mTelefonillo = telefonillo;
+            mClima = clima;
+            mCalentador = calentador;
+            mCalefaccion = calefaccion;
+            mAlarma = alarma;
+            melectro = electro;
+            mAvisos = avisos;
         }
 
         @Override

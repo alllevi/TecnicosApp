@@ -32,7 +32,7 @@
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
     <string name="error_incorrect_phone">El número de telefono es incorrecto</string>
     <string name="error_incorrect_postalCode">El código postal es incorrecto</string>
-    <string name="error_incorrect_dni">El DNI es incorrecto</string>
+    <string name="error_incorrect_dni">El DNI es incorrecto (letra en mayúscula)</string>
     <string name="error_field_required">Este campo es requerido</string>
 
 
@@ -75,10 +75,9 @@
 
     <string name="provincia">Provincia</string>
     <string name="localidad">Localidad</string>
-    <string name="provincia_prompt">Elija una provincia</string>
-    <string name="localidad_prompt">Elija una localidad</string>
+    <string name="provincia_prompt">Seleccione una provincia</string>
+    <string name="localidad_prompt">Seleccione un municipio</string>
     <string name="comprobar">Comprobar</string>
-    <string name="message">Ha seleccionado %1$s (%2$s)</string>
 
 
 </resources>

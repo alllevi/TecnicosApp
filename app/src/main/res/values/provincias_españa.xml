@@ -3,6 +3,7 @@
 
     <!-- Each position of id refers to an string array -->
     <array name="array_provincia_a_localidades">
+        <item>@array/Seleccione_localidad</item>
         <item>@array/localidades_albacete</item>
         <item>@array/localidades_alava</item>
         <item>@array/localidades_alicante</item>
@@ -58,6 +59,7 @@
     </array>
 
     <string-array name="provincias">
+        <item>Seleccione una provincia</item>
         <item>Albacete</item>
         <item>Álava</item>
         <item>Alicante</item>
@@ -111,6 +113,11 @@
         <item>Zamora</item>
         <item>Zaragoza</item>
     </string-array>
+
+    <string-array name="Seleccione_localidad">
+        <item>Seleccione un municipio</item>
+    </string-array>
+
     <string-array name="localidades_almeria">
         <item>Abla</item>
         <item>Abrucena</item>
