@@ -62,23 +62,24 @@
     <string name="menu_presupuestos">Presupuestos</string>
     <string name="avisos_registro">Deseo recibir nuevos avisos de trabajos en mi correo electrónico</string>
 
+    <!-- Strings related to Presupuestos -->
+    <string name="presupuestos_enviar_propuesta">Enviar propuesta</string>
 
-    <string-array name="planets_array">
-        <item>Seleccione provincia</item>
-        <item>Valencia</item>
-        <item>Murcia</item>
-        <item>Maadrid</item>
-        <item>Cantabria</item>
-        <item>Andalucia</item>
-        <item>Castilla la mancha</item>
-        <item>Galicia</item>
-    </string-array>
-
+    <!-- Strings related to Spinner provincia y municipio -->
     <string name="provincia">Provincia</string>
     <string name="localidad">Localidad</string>
     <string name="provincia_prompt">Seleccione una provincia</string>
     <string name="localidad_prompt">Seleccione un municipio</string>
     <string name="comprobar">Comprobar</string>
+
+    <!-- Strings related to formularios -->
+    <string name="label_nombreC">Nombre:</string>
+    <string name="label_telefonoC">Teléfono:</string>
+    <string name="label_emailC">Email:</string>
+    <string name="label_seprecisaP">Se precisa</string>
+    <string name="label_enP">En</string>
+    <string name="label_nombreP">Nombre:</string>
+    <string name="label_telefonoP">Teléfono:</string>
 
 
 </resources>

@@ -1,6 +1,5 @@
 package com.manomanitas.tecnicosapp.PresupuestosPackage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +15,12 @@ public class presupuesto {
     private String precio;
     private String kilometros;
     private String haceDias;
+
+    //Para los presupuestos comprados
+    private String nombre;
+    private String telefono;
+    private String email;
+
     private List<presupuesto> lista_presupuestos;
 
     public presupuesto(String id, String categoria, String municipio, String provincia, String averia, String precio, String kilometros, String haceDias) {
@@ -29,11 +34,17 @@ public class presupuesto {
         this.haceDias = haceDias;
     }
 
-    private void initializeData() {
-        lista_presupuestos = new ArrayList<>();
-        lista_presupuestos.add(new presupuesto("0", "Electro", "Valencia", "Valencia", "asdasdasda", "¡Gratis!", "0.6 Km", "hace 3 dias"));
-        lista_presupuestos.add(new presupuesto("1", "Calefaccion", "Valencia", "Valencia", "agdfhfgj", "¡Gratis!", "1.2 Km", "hace 7 dias"));
-        lista_presupuestos.add(new presupuesto("2", "Telefonillo", "Valencia", "Valencia", "llkljkh", "¡Gratis!", "3.0 Km", "hace 5 dias"));
+    public presupuesto(String id, String categoria, String municipio, String provincia, String averia, String kilometros, String haceDias, String nombre, String telefono, String email) {
+        this.id = id;
+        this.categoria = categoria;
+        this.municipio = municipio;
+        this.provincia = provincia;
+        this.averia = averia;
+        this.kilometros = kilometros;
+        this.haceDias = haceDias;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.email = email;
     }
 
     public String getId() {
@@ -68,8 +79,28 @@ public class presupuesto {
         return haceDias;
     }
 
-    public List<presupuesto> getLista_presupuestos() {
-        return lista_presupuestos;
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }
 

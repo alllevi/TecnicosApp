@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/cv"
+            android:id="@+id/cvc"
             android:layout_gravity="center"
             card_view:cardCornerRadius="4dp"
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/idCategoria"
+                                android:id="@+id/idCategoriaComprados"
                                 android:textColor="@color/abc_primary_text_material_light"
                                 android:layout_marginLeft="@dimen/text_margin"
                                 android:layout_marginTop="@dimen/text_margin"
@@ -57,7 +57,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/idMunicipio"
+                                android:id="@+id/idMunicipioComprados"
                                 android:gravity="right"
                                 android:textColor="@color/abc_primary_text_material_light"
                                 android:layout_marginLeft="@dimen/text_margin"
@@ -69,7 +69,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/idProvincia"
+                            android:id="@+id/idProvinciaComprados"
                             android:gravity="right"
                             android:layout_marginRight="@dimen/text_margin"
                             android:layout_marginBottom="10dp"
@@ -78,20 +78,94 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="20dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginRight="10dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/idAveria"
-                            android:nestedScrollingEnabled="false"
-                            android:textColor="@color/abc_primary_text_material_light" />
+                            android:layout_margin="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/label_nombreC"
+                                android:textColor="@color/abc_primary_text_material_light"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/idNombreComprados"
+                                android:textColor="@color/abc_primary_text_material_light" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/label_telefonoC"
+                                android:textColor="@color/abc_primary_text_material_light"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/idTelefonoComprados"
+                                android:textColor="@color/abc_primary_text_material_light" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/label_emailC"
+                                android:textColor="@color/abc_primary_text_material_light"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/idEmailComprados"
+                                android:textColor="@color/abc_primary_text_material_light" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorPrimaryDark"
+                            android:layout_margin="10dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/idAveriaComprados"
+                                android:textColor="@color/abc_primary_text_material_light" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -99,56 +173,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#bdbdbd"
-                        android:layout_marginBottom="0dp"
-                        android:gravity="right">
+                        android:layout_marginBottom="0dp">
 
-                        <LinearLayout
-                            android:orientation="horizontal"
+                        <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:id="@+id/idKilometrosComprados"
+                            android:textColor="@color/abc_primary_text_material_light"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="10dp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:id="@+id/idPrecio"
-                                android:layout_margin="10dp"
-                                android:textColor="@color/abc_primary_text_material_light" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:gravity="right">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/idKilometros"
-                                android:textColor="@color/abc_primary_text_material_light"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginLeft="10dp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:id="@+id/idHaceDias"
-                                android:layout_margin="10dp"
-                                android:gravity="right"
-                                android:textColor="@color/abc_primary_text_material_light" />
-                        </LinearLayout>
+                            android:id="@+id/idHaceDiasComprados"
+                            android:layout_margin="10dp"
+                            android:gravity="right"
+                            android:textColor="@color/abc_primary_text_material_light" />
 
                     </LinearLayout>
-
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/enviarPropuesta_bt"
-                        android:background="#bdbdbd"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="normal" />
 
                 </LinearLayout>
 

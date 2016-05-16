@@ -28,8 +28,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Se precisa "
-                    android:id="@+id/textView2"
+                    android:text="@string/label_seprecisaP"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:textStyle="bold" />
 
@@ -37,8 +36,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Videovigilancia"
-                    android:id="@+id/textView3"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                    android:id="@+id/idCategoriaDetalles"
+                    android:textColor="@color/abc_primary_text_material_light"
+                    android:layout_marginLeft="5dp" />
 
             </LinearLayout>
 
@@ -54,8 +54,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="En "
-                    android:id="@+id/textView4"
+                    android:text="@string/label_enP"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:textStyle="bold" />
 
@@ -63,15 +62,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Xirivella"
-                    android:id="@+id/textView5"
+                    android:id="@+id/idMunicipioDetalles"
                     android:textColor="@color/abc_primary_text_material_light"
-                    android:layout_marginRight="5dp" />
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="(Valencia)"
-                    android:id="@+id/textView6"
+                    android:id="@+id/idProvinciaDetalles"
                     android:textColor="@color/abc_primary_text_material_light" />
             </LinearLayout>
 
@@ -100,8 +100,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nombre: "
-                    android:id="@+id/textView7"
+                    android:text="@string/label_nombreP"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:textStyle="bold" />
 
@@ -109,8 +108,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Paco Mendes"
-                    android:id="@+id/textView8"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                    android:id="@+id/idNombreDetalles"
+                    android:textColor="@color/abc_primary_text_material_light"
+                    android:layout_marginLeft="5dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -122,8 +122,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Teléfono: "
-                    android:id="@+id/textView9"
+                    android:text="@string/label_telefonoP"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:textStyle="bold" />
 
@@ -131,8 +130,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="676585858"
-                    android:id="@+id/textView10"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                    android:id="@+id/idTelefonoDetalles"
+                    android:textColor="@color/abc_primary_text_material_light"
+                    android:layout_marginLeft="5dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -144,8 +144,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dirección: "
-                    android:id="@+id/textView11"
+                    android:text="Email: "
                     android:textColor="@color/abc_primary_text_material_light"
                     android:textStyle="bold" />
 
@@ -153,8 +152,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Paseo del los cacahuetes 29"
-                    android:id="@+id/textView12"
-                    android:textColor="@color/abc_primary_text_material_light" />
+                    android:id="@+id/idEmailDetalles"
+                    android:textColor="@color/abc_primary_text_material_light"
+                    android:layout_marginLeft="5dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -174,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Necesito instalar un Aire acondicionado de 4000 Frigorias, donde la maquina interior de la exterior las separa un tabique, y la maquina exterior ademas va situada en un balcon en un primer piso, en Xirivella"
-                    android:id="@+id/textView13"
+                    android:id="@+id/idAveriaDetalles"
                     android:textColor="@color/abc_primary_text_material_light" />
             </LinearLayout>
 
@@ -186,15 +186,5 @@
                 android:layout_margin="10dp" />
         </LinearLayout>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Comprar"
-            android:id="@+id/button"
-            android:background="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/sizeTextBt"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp" />
     </LinearLayout>
 </RelativeLayout>

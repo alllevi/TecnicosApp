@@ -19,6 +19,7 @@ import java.util.List;
 
 public class PresupuestosActivity extends AppCompatActivity {
 
+    private List<presupuesto> lista_presupuestos = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,17 +29,12 @@ public class PresupuestosActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
 
-        // Esto hacerlo dentro de la clase presupuesto
-        List<presupuesto> lista_presupuestos = new ArrayList<>();
-        lista_presupuestos.add(new presupuesto("0", "Calefaccion", "Valencia", "(Valencia)", "Necesito instalar un Aire acondicionado de 4000 Frigorias, donde la maquina interior de la exterior las separa un tabique, y la maquina exterior ademas va situada en un balcon en un primer piso, en Xirivella", "¡Gratis!", "3.2 Km", "hace 3 dias"));
-        lista_presupuestos.add(new presupuesto("1", "Fontanero", "Albal", "(Valencia)", "Fuga en un tubo de cobre. La fuga está a la vista, puesto que al hacer un agujero con el taladro, fue taladrado dicho tubo", "¡Gratis!", "10.3 Km", "hace 7 dias"));
-        lista_presupuestos.add(new presupuesto("2", "Electricista", "Manises", "(Valencia)", "necesito el boletin electrico e instalacion de luz en una cochera. Llevaria un punto de luz y un enchufe.", "¡Gratis!", "0.8 Km", "hace 5 dias"));
+        obtenerPresupuestos();
 
         RVAdapter adapter = new RVAdapter(lista_presupuestos);
         rv.setAdapter(adapter);
 
     }
-
 
     public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PresupuestoViewHolder> {
 
@@ -91,13 +87,16 @@ public class PresupuestosActivity extends AppCompatActivity {
             holder.tw_precio.setText(presupuestos.get(position).getPrecio());
             holder.tw_hacedias.setText(presupuestos.get(position).getHaceDias());
 
-            holder.bt_enviarPropuesta.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    enviarP();
-                }
-            });
-
+            if (!presupuestos.get(position).getPrecio().equalsIgnoreCase("Ya comprado")) {
+                holder.bt_enviarPropuesta.setTextColor(getResources().getColor(R.color.colorPrimaryDark, null));
+                holder.bt_enviarPropuesta.setText(getResources().getString(R.string.presupuestos_enviar_propuesta));
+                holder.bt_enviarPropuesta.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        enviarP();
+                    }
+                });
+            }
 
         }
 
@@ -115,6 +114,13 @@ public class PresupuestosActivity extends AppCompatActivity {
         public void onAttachedToRecyclerView(RecyclerView recyclerView) {
             super.onAttachedToRecyclerView(recyclerView);
         }
+
+    }
+
+    private void obtenerPresupuestos() {
+        lista_presupuestos.add(new presupuesto("0", "Calefaccion", "Valencia", "(Valencia)", "Necesito instalar un Aire acondicionado de 4000 Frigorias, donde la maquina interior de la exterior las separa un tabique, y la maquina exterior ademas va situada en un balcon en un primer piso, en Xirivella", "Ya comprado", "3.2 Km", "hace 3 dias"));
+        lista_presupuestos.add(new presupuesto("1", "Fontanero", "Albal", "(Valencia)", "Fuga en un tubo de cobre. La fuga está a la vista, puesto que al hacer un agujero con el taladro, fue taladrado dicho tubo", "¡Gratis!", "10.3 Km", "hace 7 dias"));
+        lista_presupuestos.add(new presupuesto("2", "Electricista", "Manises", "(Valencia)", "necesito el boletin electrico e instalacion de luz en una cochera. Llevaria un punto de luz y un enchufe.", "¡Gratis!", "0.8 Km", "hace 5 dias"));
 
     }
 

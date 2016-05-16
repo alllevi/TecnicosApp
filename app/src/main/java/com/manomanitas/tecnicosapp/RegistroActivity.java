@@ -27,7 +27,7 @@ import android.widget.TextView;
 public class RegistroActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     /**
-     * Keep track of the login task to ensure we can cancel it if requested.
+     * Keep track of the register task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
 
@@ -101,7 +101,7 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    attemptRegister();
                     return true;
                 }
                 return false;
@@ -115,7 +115,7 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                attemptRegister();
             }
         });
 
@@ -189,7 +189,7 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptRegister() {
         if (mAuthTask != null) {
             return;
         }

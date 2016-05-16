@@ -25,8 +25,8 @@ public class MenuActivity extends AppCompatActivity {
 
     public void onClick_comprados(View view) {
 
-        //Intent intent = new Intent(this, ItemListActivity.class);
-       // startActivity(intent);
+        Intent intent = new Intent(this, CompradosActivity.class);
+        startActivity(intent);
 
     }
 
