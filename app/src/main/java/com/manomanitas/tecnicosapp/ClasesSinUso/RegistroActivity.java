@@ -1,4 +1,4 @@
-package com.manomanitas.tecnicosapp;
+package com.manomanitas.tecnicosapp.ClasesSinUso;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -22,6 +22,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.manomanitas.tecnicosapp.R;
 
 
 public class RegistroActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {

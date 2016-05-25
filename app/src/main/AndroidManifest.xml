@@ -31,7 +31,7 @@
                 android:value="com.manomanitas.tecnicosapp.MainActivity" />
         </activity>
         <activity
-            android:name=".RegistroActivity"
+            android:name=".ClasesSinUso.RegistroActivity"
             android:label="@string/title_activity_registro"
             android:screenOrientation="portrait">
             <meta-data
@@ -69,6 +69,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.manomanitas.tecnicosapp.PresupuestosActivity" />
         </activity>
+
+        <activity android:name=".CompradosActivity"
+            android:label="@string/title_activity_presupuestos_comprados"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.manomanitas.tecnicosapp.MenuActivity" />
+        </activity>
+
+
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -77,7 +87,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".CompradosActivity"></activity>
+
     </application>
 
 </manifest>

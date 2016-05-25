@@ -5,6 +5,7 @@
     <string name="title_activity_editar_perfil">Editar Perfil</string>
     <string name="title_activity_presupuestos">Presupuestos</string>
     <string name="title_activity_detalles">Detalles presupuesto</string>
+    <string name="title_activity_presupuestos_comprados">Presupuestos_comprados</string>
 
 
     <!-- Strings related to Menu principal -->
