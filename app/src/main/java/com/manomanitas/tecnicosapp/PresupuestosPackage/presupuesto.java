@@ -12,8 +12,8 @@ public class presupuesto {
     private String municipio;
     private String provincia;
     private String averia;
-    private String precio;
-    private String kilometros;
+    private String precio; // de momento ttodo gratis
+    private String kilometros; //de momento fuera
     private String haceDias;
 
     //Para los presupuestos comprados

@@ -3,12 +3,20 @@ package com.manomanitas.tecnicosapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +25,13 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * A login screen that offers login via email/password.
@@ -27,6 +42,11 @@ public class LoginActivity extends AppCompatActivity {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+    private final String SHARED_PREFS_FILE = "manomanitasConf";
+
+    private SharedPreferences sharedpreferences;
+    private HttpURLConnection urlConnection;
+
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -34,10 +54,15 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        sharedpreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email_login);
 
@@ -111,15 +136,48 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+
+            boolean conexion = checkInternet();
+
+            if (conexion){
+                showProgress(true);
+                mAuthTask = new UserLoginTask(email, password);
+                mAuthTask.execute((Void) null);
+            }
+
         }
     }
 
     private boolean isEmailValid(String email) {
         return true;
         //return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean checkInternet(){
+
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        } else {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+
+            builder.setMessage("Compruebe su conexión a internet")
+                    .setTitle("Error de red");
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked OK button
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            return false;
+
+        }
     }
 
     /**
@@ -176,28 +234,50 @@ public class LoginActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(1000);
-                Intent intent = new Intent(getBaseContext(), MenuActivity.class);
-                startActivity(intent);
-                return true;
+             try {
 
-                //si contraseña no coincide
-                //return false
-            } catch (InterruptedException e) {
-                return false;
-            }
+                    String url_base = sharedpreferences.getString("URL_BASE", "");
 
-           /* for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(url_base);
+                    sb.append("login.php?");
+                    sb.append("email=");
+                    sb.append(mEmail);
+                    sb.append("&password=");
+                    sb.append(mPassword);
+                    String urlLogin = sb.toString();
+                    Log.d("log", urlLogin);
+
+                    URL url = new URL(urlLogin);
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    BufferedReader response = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                    String idTecnico = response.readLine();
+
+                    if(!idTecnico.equals("Error")){
+                        Intent intent = new Intent(getBaseContext(), MenuActivity.class);
+                        startActivity(intent);
+
+                        //Me guardo X del usuario
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString("ID_TECNICO",idTecnico);
+                        editor.commit();
+
+                        return true;
+                    }
+
+                    /*
+                    while ((line = r.readLine()) != null) {
+                        total.append(line).append('\n');
+                    }*/
+
+                } catch (Exception e) {
+                    return false;
+
+                } finally {
+                    urlConnection.disconnect();
                 }
-            }*/
-
-            //return true;
+                    return false;
         }
 
         @Override
@@ -207,8 +287,22 @@ public class LoginActivity extends AppCompatActivity {
             if (success) {
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password_signIn));
-                mPasswordView.requestFocus();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+
+                builder.setMessage("Email o password incorrecto")
+                        .setTitle("Error de autenticación");
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                mEmailView.requestFocus();
+
             }
         }
 

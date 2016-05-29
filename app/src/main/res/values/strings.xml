@@ -10,7 +10,6 @@
 
     <!-- Strings related to Menu principal -->
     <string name="main_entrar">Entrar</string>
-    <string name="main_registrarse">Registrarse</string>
 
 
     <!-- Strings related to login -->
@@ -19,8 +18,6 @@
     <string name="action_sign_in_signIn">Entrar</string>
     <string name="action_sign_in_short_signIn">Entrar</string>
     <string name="error_invalid_email_signIn">La dirección email no es válida</string>
-    <string name="error_invalid_password_signIn">La contraseña no es válida</string>
-    <string name="error_incorrect_password_signIn">La contraseña es incorrecta</string>
     <string name="error_field_required_signIn">Este campo es requerido</string>
 
 
@@ -30,8 +27,6 @@
     <string name="action_sign_in">Registro</string>
     <string name="action_sign_in_short">Registro</string>
     <string name="error_invalid_email">La dirección email no es válida</string>
-    <string name="error_invalid_password">La contraseña no es válida</string>
-    <string name="error_incorrect_password">La contraseña es incorrecta</string>
     <string name="error_incorrect_phone">El número de telefono es incorrecto</string>
     <string name="error_incorrect_postalCode">El código postal es incorrecto</string>
     <string name="error_incorrect_dni">El DNI es incorrecto (letra en mayúscula)</string>
@@ -64,14 +59,10 @@
     <string name="avisos_registro">Deseo recibir nuevos avisos de trabajos en mi correo electrónico</string>
 
     <!-- Strings related to Presupuestos -->
-    <string name="presupuestos_enviar_propuesta">Enviar propuesta</string>
 
     <!-- Strings related to Spinner provincia y municipio -->
-    <string name="provincia">Provincia</string>
-    <string name="localidad">Localidad</string>
     <string name="provincia_prompt">Seleccione una provincia</string>
     <string name="localidad_prompt">Seleccione un municipio</string>
-    <string name="comprobar">Comprobar</string>
 
     <!-- Strings related to formularios -->
     <string name="label_nombreC">Nombre:</string>

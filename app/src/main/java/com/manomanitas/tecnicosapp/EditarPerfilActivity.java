@@ -3,6 +3,8 @@ package com.manomanitas.tecnicosapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -22,12 +24,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.net.HttpURLConnection;
+
 public class EditarPerfilActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     /**
      * Keep track of the register task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
+    private final String SHARED_PREFS_FILE = "manomanitasConf";
+
+    private SharedPreferences sharedpreferences;
+    private HttpURLConnection urlConnection;
+
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -64,6 +73,8 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+
+        sharedpreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
