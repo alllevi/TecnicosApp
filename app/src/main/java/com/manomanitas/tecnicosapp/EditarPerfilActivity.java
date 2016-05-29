@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -27,6 +28,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.manomanitas.tecnicosapp.PresupuestosPackage.Perfil;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -38,10 +41,12 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
      * Keep track of the register task to ensure we can cancel it if requested.
      */
     private GuardarPerfilTask mAuthTask = null;
+    private ObtenerPerfilTask mAuthTaskObtener = null;
     private final String SHARED_PREFS_FILE = "manomanitasConf";
 
     private SharedPreferences sharedpreferences;
     private HttpURLConnection urlConnection;
+
 
 
     // UI references.
@@ -124,7 +129,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         });
 
         loadSpinnerProvincias();
-        loadData();
+        //loadData();
 
         Button mEmailSignInButton = (Button) findViewById(R.id.registro_button);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +138,12 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
                 attemptEditarPerfil();
             }
         });
+
+        //Cargar información obtenida de shared preferences y cargamos los datos
+        String id = sharedpreferences.getString("ID_TECNICO", "-1");
+        showProgress(true);
+        mAuthTaskObtener = new ObtenerPerfilTask(id);
+        mAuthTaskObtener.execute((Void) null);
     }
 
     /**
@@ -421,16 +432,16 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            //mPerfilFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-           /* mPerfilFormView.animate().setDuration(shortAnimTime).alpha(
+            mPerfilFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mPerfilFormView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mPerfilFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
-            });*/
+            });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            //mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
@@ -442,7 +453,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            //mPerfilFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mPerfilFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -523,7 +534,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             showProgress(false);
 
             if (success) {
-                finish();
+
             } else {
 
             }
@@ -532,6 +543,133 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         @Override
         protected void onCancelled() {
             mAuthTask = null;
+            showProgress(false);
+        }
+    }
+
+    /**
+     * Represents an asynchronous load task
+     */
+    public class ObtenerPerfilTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String idTecnico;
+        private String datosArray[];
+
+        ObtenerPerfilTask(String id) {
+            idTecnico = id;
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            try {
+                // Simulate network access.
+                Thread.sleep(2000);
+                String url_base = sharedpreferences.getString("URL_BASE", "");
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(url_base);
+                sb.append("perfil.php?");
+                sb.append("idTecnico=");
+                sb.append(idTecnico);
+                String urlLogin = sb.toString();
+
+                URL url = new URL(urlLogin);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader response = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                String datosPerfil = response.readLine();
+
+                if(!datosPerfil.equals("Error")){
+                    datosArray = datosPerfil.split(",");
+                    int longitud = datosArray.length;
+                    Log.d("log",datosPerfil + " longitud: "+longitud);
+
+                    return true;
+                }
+
+            } catch (Exception e) {
+                return false;
+            } finally {
+                urlConnection.disconnect();
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTaskObtener = null;
+            showProgress(false);
+
+            if (success) {
+                int longitud = datosArray.length;
+
+                mEmailView.setText(datosArray[2]);
+                mNombreView.setText(datosArray[0]);
+                mDniView.setText(datosArray[1]);
+                mTelefonoView.setText(datosArray[3]);
+                mCodigoPostalView.setText(datosArray[4]);
+                mRadioView.setText(datosArray[5]);
+
+                if(datosArray[8].equals("1")){
+                    cAvisos.setChecked(true);
+                }
+
+                int contador=9; //los servicios empiezan en la posicion 9 del array
+                while (contador < longitud) {
+
+                    if(datosArray[contador].equals("Electricista")){
+                        cElectricidad.setChecked(true);
+                    } else if(datosArray[contador].equals("Fontanero")){
+                        cFontaneria.setChecked(true);
+                    }else if(datosArray[contador].equals("Cerrajero")){
+                        cCerrajero.setChecked(true);
+                    }else if(datosArray[contador].equals("Videovigilancia")){
+                        cVideo.setChecked(true);
+                    }else if(datosArray[contador].equals("Antenista")){
+                        cAntenista.setChecked(true);
+                    }else if(datosArray[contador].equals("Telefonillo")){
+                        cTelefonillo.setChecked(true);
+                    }else if(datosArray[contador].equals("Clima")){
+                        cClima.setChecked(true);
+                    }else if(datosArray[contador].equals("Calentador")){
+                        cCalentador.setChecked(true);
+                    }else if(datosArray[contador].equals("Calefaccion")){
+                        cCalefaccion.setChecked(true);
+                    }else if(datosArray[contador].equals("Alarma")){
+                        cAlarma.setChecked(true);
+                    }else if(datosArray[contador].equals("Electro")){
+                        cElectro.setChecked(true);
+                    }
+
+                    contador++;
+                }
+
+
+            } else {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditarPerfilActivity.this);
+
+                builder.setMessage("No se ha podido obtener la informacion")
+                        .setTitle("Error");
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK button
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                mEmailView.requestFocus();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTaskObtener = null;
             showProgress(false);
         }
     }

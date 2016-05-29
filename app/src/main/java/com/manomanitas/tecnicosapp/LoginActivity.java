@@ -244,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
                     //sb.append(mEmail);
                     sb.append("manomanitasteam@gmail.com");
                     sb.append("&password=");
-                 sb.append("1234");
+                     sb.append("1234");
                     //sb.append(mPassword);
                     String urlLogin = sb.toString();
 
