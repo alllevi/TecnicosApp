@@ -51,6 +51,20 @@
         android:layout_marginTop="20dp"
         android:onClick="onClick_miPerfil" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/cerrar_sesion"
+        android:id="@+id/idCerrarSesion"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary"
+        android:textSize="@dimen/sizeTextBt"
+        android:onClick="onClick_cerrarSesion"
+        android:layout_below="@+id/idMiPerfil"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,5 +79,6 @@
         android:layout_alignParentLeft="false"
         android:layout_alignParentRight="false"
         android:gravity="center" />
+
 
 </RelativeLayout>

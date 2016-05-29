@@ -76,6 +76,7 @@
     <string name="label_enP">En</string>
     <string name="label_nombreP">Nombre:</string>
     <string name="label_telefonoP">Teléfono:</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
 
 
 </resources>

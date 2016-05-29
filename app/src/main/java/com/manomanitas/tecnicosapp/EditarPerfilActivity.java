@@ -515,16 +515,26 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+
+                String url_base = sharedpreferences.getString("URL_BASE", "");
+
+               /* StringBuilder sb = new StringBuilder();
+                sb.append(url_base);
+                sb.append(".php?");
+                String urlLogin = sb.toString();
+
+                URL url = new URL(urlLogin);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader response = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));*/
+
+            } catch (Exception e) {
                 return false;
+            }finally {
+                //urlConnection.disconnect();
             }
 
-            // TODO: register the new account here.
             return true;
         }
 
@@ -564,8 +574,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         protected Boolean doInBackground(Void... params) {
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
+
                 String url_base = sharedpreferences.getString("URL_BASE", "");
 
                 StringBuilder sb = new StringBuilder();
@@ -583,9 +592,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
                 if(!datosPerfil.equals("Error")){
                     datosArray = datosPerfil.split(",");
-                    int longitud = datosArray.length;
-                    Log.d("log",datosPerfil + " longitud: "+longitud);
-
                     return true;
                 }
 
@@ -646,7 +652,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
                     contador++;
                 }
-
 
             } else {
 

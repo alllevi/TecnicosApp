@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("URL_BASE", URL_BASE);
         editor.commit();
 
+        String id = sharedpreferences.getString("ID_TECNICO", "-1");
+        if(!id.equals("-1")){
+            Intent intent = new Intent(this, MenuActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void onClick_entrar(View view) {
