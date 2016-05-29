@@ -26,11 +26,12 @@ import android.widget.TextView;
 import com.manomanitas.tecnicosapp.R;
 
 
-public class RegistroActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+//public class RegistroActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     /**
      * Keep track of the register task to ensure we can cancel it if requested.
      */
+    /*
     private UserLoginTask mAuthTask = null;
 
     // UI references.
@@ -123,11 +124,13 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
 
 
     }
-
+*/
 
     /**
      * Populate the Spinner.
      */
+
+    /*
     private void loadSpinnerProvincias() {
 
         // Create an ArrayAdapter using the string array and a default spinner
@@ -184,13 +187,14 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
         // view. The selection can disappear for instance when touch is
         // activated or when the adapter becomes empty.
     }
-
+*/
 
     /**
      * Attempts to register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
+    /*
     private void attemptRegister() {
         if (mAuthTask != null) {
             return;
@@ -370,10 +374,12 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
-
+*/
     /**
      * Shows the progress UI and hides the login form.
      */
+
+    /*
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -406,10 +412,12 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-
+*/
     /**
      * Represents an asynchronous registration task
      */
+
+    /*
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
@@ -496,5 +504,5 @@ public class RegistroActivity extends AppCompatActivity implements AdapterView.O
             showProgress(false);
         }
     }
-}
+}*/
 

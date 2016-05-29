@@ -232,7 +232,6 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
              try {
 
@@ -242,11 +241,12 @@ public class LoginActivity extends AppCompatActivity {
                     sb.append(url_base);
                     sb.append("login.php?");
                     sb.append("email=");
-                    sb.append(mEmail);
+                    //sb.append(mEmail);
+                    sb.append("manomanitasteam@gmail.com");
                     sb.append("&password=");
-                    sb.append(mPassword);
+                 sb.append("1234");
+                    //sb.append(mPassword);
                     String urlLogin = sb.toString();
-                    Log.d("log", urlLogin);
 
                     URL url = new URL(urlLogin);
                     urlConnection = (HttpURLConnection) url.openConnection();
@@ -262,7 +262,6 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.putString("ID_TECNICO",idTecnico);
                         editor.commit();
-
                         return true;
                     }
 
@@ -277,7 +276,7 @@ public class LoginActivity extends AppCompatActivity {
                 } finally {
                     urlConnection.disconnect();
                 }
-                    return false;
+            return false;
         }
 
         @Override

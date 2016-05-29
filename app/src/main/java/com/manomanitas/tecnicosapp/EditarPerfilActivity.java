@@ -3,7 +3,9 @@ package com.manomanitas.tecnicosapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -12,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -24,14 +27,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class EditarPerfilActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     /**
      * Keep track of the register task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private GuardarPerfilTask mAuthTask = null;
     private final String SHARED_PREFS_FILE = "manomanitasConf";
 
     private SharedPreferences sharedpreferences;
@@ -66,7 +72,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
     private CheckBox cAvisos;
 
     private View mProgressView;
-    private View mLoginFormView;
+    private View mPerfilFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +109,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
         cAvisos = (CheckBox) findViewById(R.id.avisos_checkBox);
 
-        mLoginFormView = findViewById(R.id.registro_form);
+        mPerfilFormView = findViewById(R.id.registro_form);
         mProgressView = findViewById(R.id.registro_progress);
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -155,6 +161,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         cElectro.setChecked(false);
 
         cAvisos.setChecked(false);
+
     }
 
 
@@ -366,7 +373,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             // Show a progress spinner, and kick off a background task to
             // perform the user registration attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password, nombre, dni, telefono, codigoPostal, radio, provincia, municipio, String.valueOf(electricidad), String.valueOf(fontaneria), String.valueOf(cerrajero), String.valueOf(video), String.valueOf(antenista), String.valueOf(telefonillo), String.valueOf(clima), String.valueOf(calentador), String.valueOf(calefaccion), String.valueOf(alarma), String.valueOf(electro), String.valueOf(aviso));
+            mAuthTask = new GuardarPerfilTask(email, password, nombre, dni, telefono, codigoPostal, radio, provincia, municipio, String.valueOf(electricidad), String.valueOf(fontaneria), String.valueOf(cerrajero), String.valueOf(video), String.valueOf(antenista), String.valueOf(telefonillo), String.valueOf(clima), String.valueOf(calentador), String.valueOf(calefaccion), String.valueOf(alarma), String.valueOf(electro), String.valueOf(aviso));
             mAuthTask.execute((Void) null);
         }
     }
@@ -414,14 +421,14 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+            //mPerfilFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+           /* mPerfilFormView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    mPerfilFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
-            });
+            });*/
 
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
@@ -435,14 +442,14 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            //mPerfilFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
     /**
      * Represents an asynchronous edit task
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class GuardarPerfilTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
         private final String mPassword;
@@ -471,7 +478,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         private final String mAvisos;
 
 
-        UserLoginTask(String email, String password, String nombre, String dni, String telefono, String cp, String radio, String provincia, String municipio, String electricidad, String fontaneria, String cerrajero, String video, String antentista, String telefonillo, String clima, String calentador, String calefaccion, String alarma, String electro, String avisos) {
+        GuardarPerfilTask(String email, String password, String nombre, String dni, String telefono, String cp, String radio, String provincia, String municipio, String electricidad, String fontaneria, String cerrajero, String video, String antentista, String telefonillo, String clima, String calentador, String calefaccion, String alarma, String electro, String avisos) {
             mEmail = email;
             mPassword = password;
             mNombre = nombre;
@@ -528,4 +535,5 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             showProgress(false);
         }
     }
+
 }
