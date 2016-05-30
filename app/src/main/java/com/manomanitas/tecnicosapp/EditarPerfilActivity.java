@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -139,11 +141,42 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             }
         });
 
-        //Cargar información obtenida de shared preferences y cargamos los datos
-        String id = sharedpreferences.getString("ID_TECNICO", "-1");
-        showProgress(true);
-        mAuthTaskObtener = new ObtenerPerfilTask(id);
-        mAuthTaskObtener.execute((Void) null);
+        boolean conexion = checkInternet();
+
+        if (conexion) {
+            //Cargar información obtenida de shared preferences y cargamos los datos
+            String id = sharedpreferences.getString("ID_TECNICO", "-1");
+            showProgress(true);
+            mAuthTaskObtener = new ObtenerPerfilTask(id);
+            mAuthTaskObtener.execute((Void) null);
+        }
+    }
+
+    private boolean checkInternet(){
+
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        } else {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(EditarPerfilActivity.this);
+
+            builder.setMessage("Compruebe su conexión a internet")
+                    .setTitle("Error de red");
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User clicked OK button
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            return false;
+
+        }
     }
 
     /**

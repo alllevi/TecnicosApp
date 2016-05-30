@@ -23,8 +23,7 @@ public class presupuesto {
 
     private List<presupuesto> lista_presupuestos;
 
-    public presupuesto(String id, String categoria, String municipio, String provincia, String averia, String precio, String kilometros, String haceDias) {
-        this.id = id;
+    public presupuesto(String categoria, String municipio, String provincia, String averia, String precio, String kilometros, String haceDias) {
         this.categoria = categoria;
         this.municipio = municipio;
         this.provincia = provincia;
@@ -34,18 +33,19 @@ public class presupuesto {
         this.haceDias = haceDias;
     }
 
-    public presupuesto(String id, String categoria, String municipio, String provincia, String averia, String kilometros, String haceDias, String nombre, String telefono, String email) {
-        this.id = id;
+    public presupuesto(String categoria, String municipio, String provincia, String averia,String haceDias, String nombre, String telefono, String email) {
+
         this.categoria = categoria;
         this.municipio = municipio;
         this.provincia = provincia;
         this.averia = averia;
-        this.kilometros = kilometros;
         this.haceDias = haceDias;
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;
     }
+
+
 
     public String getId() {
         return id;
