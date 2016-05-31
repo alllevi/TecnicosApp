@@ -22,6 +22,7 @@
     <string name="error_invalid_email_signIn">La dirección email no es válida</string>
     <string name="error_field_required_signIn">Este campo es requerido</string>
 
+
     <string name="prompt_nombre">Nombre</string>
     <string name="prompt_dni">DNI</string>
     <string name="prompt_telefono">Teléfono</string>
@@ -41,7 +42,7 @@
     <string name="servicio_alarm">Alarma</string>
     <string name="servicio_electro">Electro</string>
 
-    <!-- Strings related to Registro -->
+    <!-- Strings related to editar perfil -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Registro</string>
@@ -51,6 +52,8 @@
     <string name="error_incorrect_postalCode">El código postal es incorrecto</string>
     <string name="error_incorrect_dni">El DNI es incorrecto (letra en mayúscula)</string>
     <string name="error_field_required">Este campo es requerido</string>
+    <string name="error_max_radio">Radio máximo 50 km</string>
+
 
     <!-- Strings related to Menu tecnico -->
     <string name="menu_comprados">Comprados</string>
@@ -77,6 +80,7 @@
     <string name="label_nombreP">Nombre:</string>
     <string name="label_telefonoP">Teléfono:</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="action_edit_perfil">Editar perfil</string>
 
 
 </resources>

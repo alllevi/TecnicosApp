@@ -29,6 +29,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.manomanitas.tecnicosapp.PresupuestosPackage.Perfil;
 
@@ -375,6 +376,10 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             mRadioView.setError(getString(R.string.error_field_required));
             focusView = mRadioView;
             cancel = true;
+        }else if (!isRadioValid(radio)) {
+            mRadioView.setError(getString(R.string.error_max_radio));
+            focusView = mRadioView;
+            cancel = true;
         }
 
         if (!isProvinciaValid(provincia)) {
@@ -416,9 +421,16 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             String s = String.valueOf(electricidad);
             // Show a progress spinner, and kick off a background task to
             // perform the user registration attempt.
-            showProgress(true);
-            mAuthTask = new GuardarPerfilTask(email, password, nombre, dni, telefono, codigoPostal, radio, provincia, municipio, String.valueOf(electricidad), String.valueOf(fontaneria), String.valueOf(cerrajero), String.valueOf(video), String.valueOf(antenista), String.valueOf(telefonillo), String.valueOf(clima), String.valueOf(calentador), String.valueOf(calefaccion), String.valueOf(alarma), String.valueOf(electro), String.valueOf(aviso));
-            mAuthTask.execute((Void) null);
+
+            boolean conexionGuardar = checkInternet();
+
+            if (conexionGuardar) {
+                showProgress(true);
+                mAuthTask = new GuardarPerfilTask(email, password, nombre, dni, telefono, codigoPostal, radio, provincia, municipio, String.valueOf(electricidad), String.valueOf(fontaneria), String.valueOf(cerrajero), String.valueOf(video), String.valueOf(antenista), String.valueOf(telefonillo), String.valueOf(clima), String.valueOf(calentador), String.valueOf(calefaccion), String.valueOf(alarma), String.valueOf(electro), String.valueOf(aviso));
+                mAuthTask.execute((Void) null);
+            }
+
+
         }
     }
 
@@ -440,6 +452,10 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
     private boolean isCodigoPostalValid(String cp) {
         return true;
         //return cp.matches("^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$");
+    }
+    private boolean isRadioValid(String radio) {
+        return  Integer.valueOf(radio)<=50;
+
     }
 
     private boolean isProvinciaValid(String provincia) {
@@ -552,23 +568,122 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             try {
 
                 String url_base = sharedpreferences.getString("URL_BASE", "");
+                String id = sharedpreferences.getString("ID_TECNICO", "-1");
 
-               /* StringBuilder sb = new StringBuilder();
+                String notificaciones = "0";
+
+
+                if(mAvisos.equals("true")){
+                    notificaciones="1";
+                }
+
+                StringBuilder c = new StringBuilder();
+
+                if(mElectricidad.equals("true")){
+                    c.append("Electricista");
+                    c.append(",");
+                }
+                if(mFontaneria.equals("true")){
+                    c.append("Fontanero");
+                    c.append(",");
+                }
+                if(mCerrajero.equals("true")){
+                    c.append("Cerrajero");
+                    c.append(",");
+                }
+                if(mVideo.equals("true")){
+                    c.append("Videovigilancia");
+                    c.append(",");
+                }
+                if(mAntenista.equals("true")){
+                    c.append("Antenista");
+                    c.append(",");
+                }
+                if(mTelefonillo.equals("true")){
+                    c.append("Telefonillo");
+                    c.append(",");
+                }
+                if(mClima.equals("true")){
+                    c.append("Clima");
+                    c.append(",");
+                }
+                if(mCalentador.equals("true")){
+                    c.append("Calentador");
+                    c.append(",");
+                }
+                if(mCalefaccion.equals("true")){
+                    c.append("Calefaccion");
+                    c.append(",");
+                }
+                if(mAlarma.equals("true")){
+                    c.append("Alarma");
+                    c.append(",");
+                }
+                if(melectro.equals("true")){
+                    c.append("Electro");
+                }
+
+                String categorias = c.toString();
+
+                //Eliminamos si se ha quedado una "," al final de la cadena
+                String s;
+                s = categorias.substring(categorias.length()-1);
+
+                if(s.equals(",")){
+                    categorias = categorias.substring(0,categorias.length()-1);
+                }
+
+                StringBuilder sb = new StringBuilder();
                 sb.append(url_base);
-                sb.append(".php?");
-                String urlLogin = sb.toString();
+                sb.append("editar-perfil.php?");
+                sb.append("idTecnico=");
+                sb.append(id);
+                sb.append("&nombre=");
+                sb.append(mNombre);
+                sb.append("&dni=");
+                sb.append(mDni);
+                sb.append("&email=");
+                sb.append(mEmail);
+                sb.append("&telefono=");
+                sb.append(mTelefono);
+                sb.append("&cpostal=");
+                sb.append(mCodigoPostal);
+                sb.append("&radiocp=");
+                sb.append(mRadio);
+                sb.append("&provincia=");
+                sb.append(mProvincia);
+                sb.append("&direccion=");
+                sb.append(mMunicipio);
+                sb.append("&notificaciones=");
+                sb.append(notificaciones);
+                sb.append("&categorias=");
+                sb.append(categorias);
 
-                URL url = new URL(urlLogin);
+
+                String urlEditar = sb.toString();
+
+                URL url = new URL(urlEditar);
                 urlConnection = (HttpURLConnection) url.openConnection();
-                BufferedReader response = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));*/
+                BufferedReader response = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                String presupuesto = response.readLine();
+                Log.d("editar perfil",urlEditar);
+                Log.d("editar perfil",presupuesto);
+
+                if(presupuesto.equals("Se actualizaron tus datos")){
+
+                    return true;
+                }else{
+                    return false;
+                }
+
 
             } catch (Exception e) {
                 return false;
             }finally {
-                //urlConnection.disconnect();
+                urlConnection.disconnect();
             }
 
-            return true;
         }
 
         @Override
@@ -577,8 +692,10 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             showProgress(false);
 
             if (success) {
+                Toast.makeText(getApplicationContext(), "Datos actualizados", Toast.LENGTH_SHORT).show();
 
             } else {
+                Toast.makeText(getApplicationContext(), "No han habido cambios en su perfil", Toast.LENGTH_SHORT).show();
 
             }
         }

@@ -264,12 +264,33 @@ public class CompradosActivity extends AppCompatActivity {
 
                     datosArray = presupuesto.split("~~");
                     lista_comprados.add(new presupuesto(datosArray[0],datosArray[1],datosArray[2],datosArray[6],datosArray[7],datosArray[3],datosArray[4],datosArray[5]));
-                    Log.d("expceptio",datosArray.length+"");
+                    Log.d("excepcion",presupuesto);
+                    Log.d("excepcion",datosArray.length+"");
+                    Log.d("excepcion",datosArray[0]);
+                    Log.d("excepcion",datosArray[1]);
+                    Log.d("excepcion",datosArray[2]);
+                    Log.d("excepcion",datosArray[3]);
+                    Log.d("excepcion",datosArray[4]);
+                    Log.d("excepcion",datosArray[5]);
+                    Log.d("excepcion",datosArray[6]);
+                    Log.d("excepcion",datosArray[7]);
+                    Log.d("excepcion","---------");
                     while ((presupuesto = response.readLine().trim()) != null) {
 
                         datosArray = presupuesto.split("~~");
-                        Log.d("expceptio",datosArray.length+"");
-                        lista_comprados.add(new presupuesto(datosArray[0],datosArray[1],datosArray[2],datosArray[6],datosArray[7],datosArray[3],datosArray[4],datosArray[5]));
+
+                        Log.d("excepcion",presupuesto);
+                        Log.d("excepcion",datosArray.length+"");
+                        Log.d("excepcion",datosArray[0]);
+                        Log.d("excepcion",datosArray[1]);
+                        Log.d("excepcion",datosArray[2]);
+                        Log.d("excepcion",datosArray[3]);
+                        Log.d("excepcion",datosArray[4]);
+                        Log.d("excepcion",datosArray[5]);
+                        Log.d("excepcion",datosArray[6]);
+                        Log.d("excepcion",datosArray[7]);
+                        Log.d("excepcion","---------");
+                        lista_comprados.add(new presupuesto(""+datosArray[0],""+datosArray[1],""+datosArray[2],""+datosArray[6],""+datosArray[7],""+datosArray[3],""+datosArray[4],""+datosArray[5]));
 
                     }
                 }
@@ -277,8 +298,7 @@ public class CompradosActivity extends AppCompatActivity {
                 return true;
 
             } catch (Exception e) {
-                Log.d("expceptio","eeee");
-                Log.d("expceptio",""+e);
+                Log.d("expception",""+e);
                 return false;
 
             } finally {
