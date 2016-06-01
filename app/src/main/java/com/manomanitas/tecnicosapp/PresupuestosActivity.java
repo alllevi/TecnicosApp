@@ -17,11 +17,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.manomanitas.tecnicosapp.PresupuestosPackage.presupuesto;
 
@@ -109,26 +111,35 @@ public class PresupuestosActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(PresupuestoViewHolder holder, int position) {
+        public void onBindViewHolder(PresupuestoViewHolder holder, final int position) {
             holder.tw_categoria.setText(presupuestos.get(position).getCategoria());
             holder.tw_municipio.setText(presupuestos.get(position).getMunicipio());
             holder.tw_provincia.setText(presupuestos.get(position).getProvincia());
             holder.tw_averia.setText(presupuestos.get(position).getAveria());
-            holder.tw_kilometros.setText(presupuestos.get(position).getKilometros());
+            //holder.tw_kilometros.setText(presupuestos.get(position).getKilometros());
             holder.tw_precio.setText(presupuestos.get(position).getPrecio());
             holder.tw_hacedias.setText(presupuestos.get(position).getHaceDias());
 
                 holder.bt_enviarPropuesta.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        enviarP();
+                        enviarP(presupuestos.get(position));
                     }
                 });
 
         }
 
-        private void enviarP() {
+        private void enviarP(presupuesto p) {
+
             Intent intent = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, DetallePresupuestoActivity.class);
+            intent.putExtra("categoria",p.getCategoria());
+            intent.putExtra("municipio",p.getMunicipio());
+            intent.putExtra("provincia",p.getProvincia());
+            intent.putExtra("nombre",p.getNombre());
+            intent.putExtra("telefono",p.getTelefono());
+            intent.putExtra("email",p.getEmail());
+            intent.putExtra("descripcion",p.getAveria());
+
             startActivity(intent);
         }
 
@@ -145,11 +156,8 @@ public class PresupuestosActivity extends AppCompatActivity {
     }
 
     private void obtenerPresupuestos() {
-        lista_presupuestos.add(new presupuesto("0", "Calefaccion", "Valencia", "(Valencia)", "Necesito instalar un Aire acondicionado de 4000 Frigorias, donde la maquina interior de la exterior las separa un tabique, y la maquina exterior ademas va situada en un balcon en un primer piso, en Xirivella", "Ya comprado", "3.2 Km", "hace 3 dias"));
-        lista_presupuestos.add(new presupuesto("1", "Fontanero", "Albal", "(Valencia)", "Fuga en un tubo de cobre. La fuga está a la vista, puesto que al hacer un agujero con el taladro, fue taladrado dicho tubo", "¡Gratis!", "10.3 Km", "hace 7 dias"));
-        lista_presupuestos.add(new presupuesto("2", "Electricista", "Manises", "(Valencia)", "necesito el boletin electrico e instalacion de luz en una cochera. Llevaria un punto de luz y un enchufe.", "¡Gratis!", "0.8 Km", "hace 5 dias"));
 
-        /*boolean conexion = checkInternet();
+        boolean conexion = checkInternet();
 
         if (conexion) {
             //Cargar información obtenida de shared preferences y cargamos los datos
@@ -157,7 +165,7 @@ public class PresupuestosActivity extends AppCompatActivity {
             showProgress(true);
             mAuthTask = new PresupuestosTask(id);
             mAuthTask.execute((Void) null);
-        }*/
+        }
     }
 
     private boolean checkInternet(){
@@ -230,6 +238,8 @@ public class PresupuestosActivity extends AppCompatActivity {
     public class PresupuestosTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String idTecnico;
+        private String datosArray[];
+        private String presupuestoArray[];
 
         PresupuestosTask(String id) {
             idTecnico = id;
@@ -249,37 +259,66 @@ public class PresupuestosActivity extends AppCompatActivity {
                 sb.append(idTecnico);
 
                 String urlLogin = sb.toString();
-
                 URL url = new URL(urlLogin);
                 urlConnection = (HttpURLConnection) url.openConnection();
-                BufferedReader response = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
-                String presupuesto = response.readLine();
+                StringBuilder sb_response = new StringBuilder();
 
-                if(presupuesto.equals("Error")){
+                String line = buffer.readLine();
+
+                if(line.equals("Error")){
 
                     //Mensaje error
+                    return false;
 
-                } else if (presupuesto.equals("No hay presupuestos")){
+                } else if (line.equals("No hay presupuestos")){
 
                     //Mensaje error (falta si devuelve un 0)
+                    return false;
+
                 } else{
-                    //Añadir el primer presupuesto obtenido y con el bucle el resto
 
-                    while ((presupuesto = response.readLine()) != null) {
-                        //lista_presupuestos.add(new presupuesto("0", "Calefaccion", "Valencia", "(Valencia)", "Necesito instalar un Aire acondicionado de 4000 Frigorias, donde la maquina interior de la exterior las separa un tabique, y la maquina exterior ademas va situada en un balcon en un primer piso, en Xirivella", "Ya comprado", "3.2 Km", "hace 3 dias"));
+                    //recogemos toda la resupuesta en una cadena_response.append(line);
+                    sb_response.append(line);
 
+                    while ((line = buffer.readLine()) != null) {
+                        sb_response.append(line);
                     }
+
+                    String response = sb_response.toString();
+
+
+                    datosArray = response.split(";_;");
+
+                    for(int i=0;i<datosArray.length;i++){
+
+                        presupuestoArray = datosArray[i].split("~~");
+
+                        //Datos devueltos
+                        //Categoria, ciudad, provincia, descripcion, nombre, telefono, email, fecha --respuesta
+                        //Categoria, ciudad, provincia, descripcion, (precio) ,fecha, nombre, telefono, email -- metodo
+
+                        try {
+                            lista_presupuestos.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[3], presupuestoArray[4],"¡Gratis!", presupuestoArray[8], presupuestoArray[5], presupuestoArray[6], presupuestoArray[7]));
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
                 }
 
+                return true;
 
             } catch (Exception e) {
+                e.printStackTrace();
                 return false;
 
             } finally {
                 urlConnection.disconnect();
             }
-            return false;
+
         }
 
         @Override
@@ -290,19 +329,7 @@ public class PresupuestosActivity extends AppCompatActivity {
 
 
             } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(PresupuestosActivity.this);
-
-                builder.setMessage("No se ha podido obtener la informacion")
-                        .setTitle("Error");
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                Toast.makeText(getApplicationContext(), "No hay presupuestos para mostrar", Toast.LENGTH_SHORT).show();
             }
         }
 

@@ -97,7 +97,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/label_nombreC"
                                 android:textColor="@color/abc_primary_text_material_light"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:layout_marginRight="8dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -117,7 +118,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/label_telefonoC"
                                 android:textColor="@color/abc_primary_text_material_light"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:layout_marginRight="8dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -137,7 +139,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/label_emailC"
                                 android:textColor="@color/abc_primary_text_material_light"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:layout_marginRight="8dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"

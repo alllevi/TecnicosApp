@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -30,8 +29,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.manomanitas.tecnicosapp.PresupuestosPackage.Perfil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -805,19 +802,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
             } else {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(EditarPerfilActivity.this);
-
-                builder.setMessage("No se ha podido obtener la informacion")
-                        .setTitle("Error");
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                Toast.makeText(getApplicationContext(), "No se ha podido obtener la información", Toast.LENGTH_SHORT).show();
                 mEmailView.requestFocus();
             }
         }

@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.manomanitas.tecnicosapp.PresupuestosPackage.presupuesto;
 
@@ -225,6 +226,7 @@ public class CompradosActivity extends AppCompatActivity {
 
         private final String idTecnico;
         private String datosArray[];
+        private String presupuestoArray[];
 
         CompradosTask(String id) {
             idTecnico = id;
@@ -247,58 +249,53 @@ public class CompradosActivity extends AppCompatActivity {
 
                 URL url = new URL(urlLogin);
                 urlConnection = (HttpURLConnection) url.openConnection();
-                BufferedReader response = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
-                String presupuesto = response.readLine().trim();
-                if(presupuesto.equals("0")){
+                StringBuilder sb_response = new StringBuilder();
+
+                String line = buffer.readLine();
+
+                if(line.equals("0")){
 
                     //Mensaje error
+                    return false;
 
-                } else if (presupuesto.equals("No hay presupuestos")){
+                } else if (line.equals("No hay presupuestos")){
 
                     //Mensaje no hay presupuestos
+                    return false;
 
                 } else{
-                    //Datos devueltos
-                    //Categoria,ciudad,provincia,nombre,telefono,email,descripcion,fecha
+                    //recogemos toda la resupuesta en una cadena
+                    sb_response.append(line);
 
-                    datosArray = presupuesto.split("~~");
-                    lista_comprados.add(new presupuesto(datosArray[0],datosArray[1],datosArray[2],datosArray[6],datosArray[7],datosArray[3],datosArray[4],datosArray[5]));
-                    Log.d("excepcion",presupuesto);
-                    Log.d("excepcion",datosArray.length+"");
-                    Log.d("excepcion",datosArray[0]);
-                    Log.d("excepcion",datosArray[1]);
-                    Log.d("excepcion",datosArray[2]);
-                    Log.d("excepcion",datosArray[3]);
-                    Log.d("excepcion",datosArray[4]);
-                    Log.d("excepcion",datosArray[5]);
-                    Log.d("excepcion",datosArray[6]);
-                    Log.d("excepcion",datosArray[7]);
-                    Log.d("excepcion","---------");
-                    while ((presupuesto = response.readLine().trim()) != null) {
-
-                        datosArray = presupuesto.split("~~");
-
-                        Log.d("excepcion",presupuesto);
-                        Log.d("excepcion",datosArray.length+"");
-                        Log.d("excepcion",datosArray[0]);
-                        Log.d("excepcion",datosArray[1]);
-                        Log.d("excepcion",datosArray[2]);
-                        Log.d("excepcion",datosArray[3]);
-                        Log.d("excepcion",datosArray[4]);
-                        Log.d("excepcion",datosArray[5]);
-                        Log.d("excepcion",datosArray[6]);
-                        Log.d("excepcion",datosArray[7]);
-                        Log.d("excepcion","---------");
-                        lista_comprados.add(new presupuesto(""+datosArray[0],""+datosArray[1],""+datosArray[2],""+datosArray[6],""+datosArray[7],""+datosArray[3],""+datosArray[4],""+datosArray[5]));
-
+                    while ((line = buffer.readLine()) != null) {
+                        sb_response.append(line);
                     }
+
+                    String response = sb_response.toString();
+
+                    datosArray = response.split(";_;");
+
+                    for(int i=0;i<datosArray.length;i++){
+
+                        presupuestoArray = datosArray[i].split("~~");
+
+                        //Datos devueltos
+                        //Categoria,ciudad,provincia,nombre,telefono,email,descripcion,fecha
+                        try {
+                            lista_comprados.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[6], presupuestoArray[7], presupuestoArray[3], presupuestoArray[4], presupuestoArray[5]));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
                 }
 
                 return true;
 
             } catch (Exception e) {
-                Log.d("expception",""+e);
+                e.printStackTrace();
                 return false;
 
             } finally {
@@ -314,19 +311,7 @@ public class CompradosActivity extends AppCompatActivity {
 
 
             } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(CompradosActivity.this);
-
-                builder.setMessage("No se ha podido obtener la informacion")
-                        .setTitle("Error");
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                Toast.makeText(getApplicationContext(), "No hay presupuestos comprados", Toast.LENGTH_SHORT).show();
             }
         }
 

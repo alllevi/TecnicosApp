@@ -35,7 +35,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Videovigilancia"
                     android:id="@+id/idCategoriaDetalles"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:layout_marginLeft="5dp" />
@@ -61,7 +60,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Xirivella"
                     android:id="@+id/idMunicipioDetalles"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:layout_marginRight="5dp"
@@ -70,7 +68,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="(Valencia)"
                     android:id="@+id/idProvinciaDetalles"
                     android:textColor="@color/abc_primary_text_material_light" />
             </LinearLayout>
@@ -107,7 +104,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Paco Mendes"
                     android:id="@+id/idNombreDetalles"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:layout_marginLeft="5dp" />
@@ -129,7 +125,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="676585858"
                     android:id="@+id/idTelefonoDetalles"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:layout_marginLeft="5dp" />
@@ -151,7 +146,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Paseo del los cacahuetes 29"
                     android:id="@+id/idEmailDetalles"
                     android:textColor="@color/abc_primary_text_material_light"
                     android:layout_marginLeft="5dp" />
@@ -173,7 +167,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Necesito instalar un Aire acondicionado de 4000 Frigorias, donde la maquina interior de la exterior las separa un tabique, y la maquina exterior ademas va situada en un balcon en un primer piso, en Xirivella"
                     android:id="@+id/idAveriaDetalles"
                     android:textColor="@color/abc_primary_text_material_light" />
             </LinearLayout>

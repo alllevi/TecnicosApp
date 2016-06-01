@@ -23,14 +23,17 @@ public class presupuesto {
 
     private List<presupuesto> lista_presupuestos;
 
-    public presupuesto(String categoria, String municipio, String provincia, String averia, String precio, String kilometros, String haceDias) {
+    public presupuesto(String id,String categoria, String municipio, String provincia, String averia, String precio, String haceDias, String nombre, String telefono, String email) {
+        this.id=id;
         this.categoria = categoria;
         this.municipio = municipio;
         this.provincia = provincia;
         this.averia = averia;
         this.precio = precio;
-        this.kilometros = kilometros;
         this.haceDias = haceDias;
+        this.nombre=nombre;
+        this.telefono=telefono;
+        this.email=email;
     }
 
     public presupuesto(String categoria, String municipio, String provincia, String averia,String haceDias, String nombre, String telefono, String email) {
