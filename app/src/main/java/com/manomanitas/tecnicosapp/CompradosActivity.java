@@ -51,6 +51,7 @@ public class CompradosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reciclerview_presupuestos_comprados);
 
+        //Obtenemos sharedPreferences
         sharedpreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.rvc);
@@ -60,6 +61,7 @@ public class CompradosActivity extends AppCompatActivity {
         mCompradosFormView = findViewById(R.id.rvc);
         mProgressView = findViewById(R.id.comprados_progress);
 
+        //Metodo que realiza la llamada para obtener los presupuestos comprados
         obtenerPresupuestosComprados();
 
         RVAdapterComprados adapter = new RVAdapterComprados(lista_comprados);
@@ -67,6 +69,13 @@ public class CompradosActivity extends AppCompatActivity {
     }
 
     public class RVAdapterComprados extends RecyclerView.Adapter<RVAdapterComprados.CompradosViewHolder> {
+
+        //Defino variables
+        List<presupuesto> comprados;
+        RVAdapterComprados(List<presupuesto> list_comprados) {
+            this.comprados = list_comprados;
+        }
+
 
         public class CompradosViewHolder extends RecyclerView.ViewHolder {
             CardView cv;
@@ -89,7 +98,6 @@ public class CompradosActivity extends AppCompatActivity {
                 tw_nombre = (TextView) itemView.findViewById(R.id.idNombreComprados);
                 tw_telefono = (TextView) itemView.findViewById(R.id.idTelefonoComprados);
                 tw_email = (TextView) itemView.findViewById(R.id.idEmailComprados);
-
                 tw_averia = (TextView) itemView.findViewById(R.id.idAveriaComprados);
                 tw_kilometros = (TextView) itemView.findViewById(R.id.idKilometrosComprados);
                 tw_hacedias = (TextView) itemView.findViewById(R.id.idHaceDiasComprados);
@@ -97,11 +105,6 @@ public class CompradosActivity extends AppCompatActivity {
             }
         }
 
-        List<presupuesto> comprados;
-
-        RVAdapterComprados(List<presupuesto> list_comprados) {
-            this.comprados = list_comprados;
-        }
 
         @Override
         public CompradosViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -138,9 +141,6 @@ public class CompradosActivity extends AppCompatActivity {
     }
 
     private void obtenerPresupuestosComprados() {
-        //lista_comprados.add(new presupuesto("0", "Electro", "Valencia", "(Valencia)", "asdasdasda", "0.6 Km", "hace 3 dias", "Pepe Perez", "676589898", "peperez@gmail.com"));
-        //lista_comprados.add(new presupuesto("1", "Calefaccion", "Valencia", "(Valencia)", "agdfhfgj", "1.2 Km", "hace 7 dias", "Manolo perales", "676512354", "maper@gmail.com"));
-        //lista_comprados.add(new presupuesto("2", "Telefonillo", "Valencia", "(Valencia)", "llkljkh", "3.0 Km", "hace 5 dias", "Florentino", "677899898", "floren@gmail.com"));
 
         boolean conexion = checkInternet();
 
@@ -164,21 +164,8 @@ public class CompradosActivity extends AppCompatActivity {
             return true;
         } else {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(CompradosActivity.this);
-
-            builder.setMessage("Compruebe su conexión a internet")
-                    .setTitle("Error de red");
-
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // User clicked OK button
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            Toast.makeText(getApplicationContext(), "Compruebe su conexión a internet", Toast.LENGTH_SHORT).show();
             return false;
-
         }
     }
 
@@ -219,8 +206,7 @@ public class CompradosActivity extends AppCompatActivity {
     }
 
     /**
-     * Represents an asynchronous login task used to authenticate
-     * the user.
+     * Represents an asynchronous load task presupuestos comprados
      */
     public class CompradosTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -229,6 +215,7 @@ public class CompradosActivity extends AppCompatActivity {
         private String presupuestoArray[];
 
         CompradosTask(String id) {
+
             idTecnico = id;
         }
 
@@ -266,6 +253,7 @@ public class CompradosActivity extends AppCompatActivity {
                     return false;
 
                 } else{
+
                     //recogemos toda la resupuesta en una cadena
                     sb_response.append(line);
 
@@ -275,14 +263,18 @@ public class CompradosActivity extends AppCompatActivity {
 
                     String response = sb_response.toString();
 
+                    //Separamos los diferentes presupuestos
                     datosArray = response.split(";_;");
 
                     for(int i=0;i<datosArray.length;i++){
 
+                        //Obtenemos los datos de cada presupuesto
                         presupuestoArray = datosArray[i].split("~~");
 
-                        //Datos devueltos
-                        //Categoria,ciudad,provincia,nombre,telefono,email,descripcion,fecha
+                        /*Datos devueltos
+                            -> categoria, ciudad, provincia, nombre, telefono, email, descripcion, fecha
+                         */
+
                         try {
                             lista_comprados.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[6], presupuestoArray[7], presupuestoArray[3], presupuestoArray[4], presupuestoArray[5]));
                         }catch (Exception e){

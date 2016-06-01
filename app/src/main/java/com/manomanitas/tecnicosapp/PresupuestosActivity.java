@@ -53,6 +53,7 @@ public class PresupuestosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reciclerview_presupuestos);
 
+        //Obtenemos sharedPreferences
         sharedpreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.rv);
@@ -62,6 +63,7 @@ public class PresupuestosActivity extends AppCompatActivity {
         mPresupuestosFormView = findViewById(R.id.rv);
         mProgressView = findViewById(R.id.presupuestos_progress);
 
+        //Metodo que realiza la llamada para obtener los presupuestos
         obtenerPresupuestos();
 
         RVAdapter adapter = new RVAdapter(lista_presupuestos);
@@ -70,6 +72,12 @@ public class PresupuestosActivity extends AppCompatActivity {
     }
 
     public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PresupuestoViewHolder> {
+
+        //Definimos variables
+        List<presupuesto> presupuestos;
+        RVAdapter(List<presupuesto> presupuestos) {
+            this.presupuestos = presupuestos;
+        }
 
         public class PresupuestoViewHolder extends RecyclerView.ViewHolder {
             CardView cv;
@@ -97,12 +105,6 @@ public class PresupuestosActivity extends AppCompatActivity {
             }
         }
 
-        List<presupuesto> presupuestos;
-
-        RVAdapter(List<presupuesto> presupuestos) {
-            this.presupuestos = presupuestos;
-        }
-
         @Override
         public PresupuestoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_presupuestos, parent, false);
@@ -120,6 +122,7 @@ public class PresupuestosActivity extends AppCompatActivity {
             holder.tw_precio.setText(presupuestos.get(position).getPrecio());
             holder.tw_hacedias.setText(presupuestos.get(position).getHaceDias());
 
+            //Asignamos un listener al boton enviar propuesta
                 holder.bt_enviarPropuesta.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -129,18 +132,27 @@ public class PresupuestosActivity extends AppCompatActivity {
 
         }
 
+        /**
+         * Metodo que permite pasar a la interfaz detalles prespuesto
+         * @param p , presupuesto que contiene la cardview
+         * Le pasa en los extras los datos necesarios a la interfaz de detalles
+         */
         private void enviarP(presupuesto p) {
 
-            Intent intent = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, DetallePresupuestoActivity.class);
-            intent.putExtra("categoria",p.getCategoria());
-            intent.putExtra("municipio",p.getMunicipio());
-            intent.putExtra("provincia",p.getProvincia());
-            intent.putExtra("nombre",p.getNombre());
-            intent.putExtra("telefono",p.getTelefono());
-            intent.putExtra("email",p.getEmail());
-            intent.putExtra("descripcion",p.getAveria());
+            try {
+                Intent intent = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, DetallePresupuestoActivity.class);
+                intent.putExtra("categoria",p.getCategoria());
+                intent.putExtra("municipio",p.getMunicipio());
+                intent.putExtra("provincia",p.getProvincia());
+                intent.putExtra("nombre",p.getNombre());
+                intent.putExtra("telefono",p.getTelefono());
+                intent.putExtra("email",p.getEmail());
+                intent.putExtra("descripcion",p.getAveria());
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "No se ha podido acceder a detalles", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();}
 
-            startActivity(intent);
         }
 
         @Override
@@ -160,7 +172,7 @@ public class PresupuestosActivity extends AppCompatActivity {
         boolean conexion = checkInternet();
 
         if (conexion) {
-            //Cargar información obtenida de shared preferences y cargamos los datos
+            //Obtenemos id del tecnico de shared preferences y cargamos los datos
             String id = sharedpreferences.getString("ID_TECNICO", "-1");
             showProgress(true);
             mAuthTask = new PresupuestosTask(id);
@@ -176,20 +188,7 @@ public class PresupuestosActivity extends AppCompatActivity {
         if (networkInfo != null && networkInfo.isConnected()) {
             return true;
         } else {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(PresupuestosActivity.this);
-
-            builder.setMessage("Compruebe su conexión a internet")
-                    .setTitle("Error de red");
-
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // User clicked OK button
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            Toast.makeText(getApplicationContext(), "Compruebe su conexión a internet", Toast.LENGTH_SHORT).show();
             return false;
 
         }
@@ -242,6 +241,7 @@ public class PresupuestosActivity extends AppCompatActivity {
         private String presupuestoArray[];
 
         PresupuestosTask(String id) {
+
             idTecnico = id;
         }
 
@@ -279,7 +279,7 @@ public class PresupuestosActivity extends AppCompatActivity {
 
                 } else{
 
-                    //recogemos toda la resupuesta en una cadena_response.append(line);
+                    //recogemos toda la resupuesta en una cadena
                     sb_response.append(line);
 
                     while ((line = buffer.readLine()) != null) {
@@ -288,16 +288,17 @@ public class PresupuestosActivity extends AppCompatActivity {
 
                     String response = sb_response.toString();
 
-
+                    //Separamos los diferentes presupuestos
                     datosArray = response.split(";_;");
 
                     for(int i=0;i<datosArray.length;i++){
 
+                        //Obtenemos la informacion por separado de cada presupuesto
                         presupuestoArray = datosArray[i].split("~~");
 
-                        //Datos devueltos
-                        //Categoria, ciudad, provincia, descripcion, nombre, telefono, email, fecha --respuesta
-                        //Categoria, ciudad, provincia, descripcion, (precio) ,fecha, nombre, telefono, email -- metodo
+                        /*Datos devueltos
+                            respuesta php ->Categoria, ciudad, provincia, descripcion, nombre, telefono, email, fecha
+                         */
 
                         try {
                             lista_presupuestos.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[3], presupuestoArray[4],"¡Gratis!", presupuestoArray[8], presupuestoArray[5], presupuestoArray[6], presupuestoArray[7]));

@@ -12,16 +12,14 @@ public class presupuesto {
     private String municipio;
     private String provincia;
     private String averia;
-    private String precio; // de momento ttodo gratis
-    private String kilometros; //de momento fuera
+    private String precio; // de momento gratis
+    private String kilometros;
     private String haceDias;
 
     //Para los presupuestos comprados
     private String nombre;
     private String telefono;
     private String email;
-
-    private List<presupuesto> lista_presupuestos;
 
     public presupuesto(String id,String categoria, String municipio, String provincia, String averia, String precio, String haceDias, String nombre, String telefono, String email) {
         this.id=id;
@@ -98,12 +96,5 @@ public class presupuesto {
         this.email = email;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
 }
 

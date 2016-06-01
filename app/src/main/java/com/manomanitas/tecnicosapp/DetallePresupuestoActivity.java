@@ -28,6 +28,7 @@ public class DetallePresupuestoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_presupuesto);
 
+        //Recogemos la informacion
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             categoria = bundle.getString("categoria");
@@ -39,6 +40,7 @@ public class DetallePresupuestoActivity extends AppCompatActivity {
             averia = bundle.getString("descripcion");
         }
 
+        //Cargamos los elementos de la interfaz
         mCategoria = (TextView) findViewById(R.id.idCategoriaDetalles);
         mMunicipio = (TextView) findViewById(R.id.idMunicipioDetalles);
         mProvincia = (TextView) findViewById(R.id.idProvinciaDetalles);
@@ -47,6 +49,7 @@ public class DetallePresupuestoActivity extends AppCompatActivity {
         mEmail = (TextView) findViewById(R.id.idEmailDetalles);
         mAveria = (TextView) findViewById(R.id.idAveriaDetalles);
 
+        //Establecemos los valores
         mCategoria.setText(categoria);
         mMunicipio.setText(municipio);
         mProvincia.setText("("+provincia+")");

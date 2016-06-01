@@ -25,6 +25,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -56,12 +57,12 @@ public class LoginActivity extends AppCompatActivity {
     private View mLoginFormView;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //Obtenemos objeto sharedPreferences
         sharedpreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
 
         // Set up the login form.
@@ -150,8 +151,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isEmailValid(String email) {
-        return true;
-        //return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     private boolean checkInternet(){
@@ -163,19 +163,7 @@ public class LoginActivity extends AppCompatActivity {
             return true;
         } else {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-
-            builder.setMessage("Compruebe su conexión a internet")
-                    .setTitle("Error de red");
-
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // User clicked OK button
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            Toast.makeText(getApplicationContext(), "Compruebe su conexión a internet", Toast.LENGTH_SHORT).show();
             return false;
 
         }
@@ -242,11 +230,9 @@ public class LoginActivity extends AppCompatActivity {
                     sb.append(url_base);
                     sb.append("login.php?");
                     sb.append("email=");
-                    //sb.append(mEmail);
-                    sb.append("manomanitasteam@gmail.com");
+                    sb.append(mEmail);
                     sb.append("&password=");
-                     sb.append("1234");
-                    //sb.append(mPassword);
+                    sb.append(mPassword);
                     String urlLogin = sb.toString();
 
                     URL url = new URL(urlLogin);
@@ -259,17 +245,12 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(getBaseContext(), MenuActivity.class);
                         startActivity(intent);
 
-                        //Me guardo X del usuario
+                        //Me guardo el id del tecnico en sharedPreferences
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.putString("ID_TECNICO",idTecnico);
                         editor.commit();
                         return true;
                     }
-
-                    /*
-                    while ((line = r.readLine()) != null) {
-                        total.append(line).append('\n');
-                    }*/
 
                 } catch (Exception e) {
                     return false;
@@ -288,19 +269,7 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             } else {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-
-                builder.setMessage("Email o password incorrecto")
-                        .setTitle("Error de autenticación");
-
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                Toast.makeText(getApplicationContext(), "Email o password incorrecto", Toast.LENGTH_SHORT).show();
                 mEmailView.requestFocus();
 
             }

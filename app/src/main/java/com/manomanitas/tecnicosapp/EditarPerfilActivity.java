@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -37,17 +38,12 @@ import java.net.URL;
 
 public class EditarPerfilActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    /**
-     * Keep track of the register task to ensure we can cancel it if requested.
-     */
     private GuardarPerfilTask mAuthTask = null;
     private ObtenerPerfilTask mAuthTaskObtener = null;
     private final String SHARED_PREFS_FILE = "manomanitasConf";
 
     private SharedPreferences sharedpreferences;
     private HttpURLConnection urlConnection;
-
-
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -85,6 +81,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
+        //Obtenemos sharedPreferences
         sharedpreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
 
         // Set up the login form.
@@ -128,8 +125,9 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             }
         });
 
+        //Rellenamos los spinners de las provincias
         loadSpinnerProvincias();
-        //loadData();
+
 
         Button mEmailSignInButton = (Button) findViewById(R.id.registro_button);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +140,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         boolean conexion = checkInternet();
 
         if (conexion) {
-            //Cargar información obtenida de shared preferences y cargamos los datos
+            //Recuperar id del tecnico de sharedpreferences y cargamos los datos del perfil
             String id = sharedpreferences.getString("ID_TECNICO", "-1");
             showProgress(true);
             mAuthTaskObtener = new ObtenerPerfilTask(id);
@@ -159,53 +157,10 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             return true;
         } else {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(EditarPerfilActivity.this);
-
-            builder.setMessage("Compruebe su conexión a internet")
-                    .setTitle("Error de red");
-
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // User clicked OK button
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            Toast.makeText(getApplicationContext(), "Compruebe su conexión a internet", Toast.LENGTH_SHORT).show();
             return false;
-
         }
     }
-
-    /**
-     * Rellenar formulario.
-     */
-    private void loadData() {
-
-
-        mEmailView.setText("manomanitasteam@gmail.com");
-        mNombreView.setText("Manomanitas");
-        mDniView.setText("12345678A");
-        mTelefonoView.setText("960032459");
-        mCodigoPostalView.setText("46010");
-        mRadioView.setText("10");
-
-        cElectricidad.setChecked(true);
-        cFontaneria.setChecked(true);
-        cCerrajero.setChecked(false);
-        cVideo.setChecked(true);
-        cAntenista.setChecked(false);
-        cTelefonillo.setChecked(false);
-        cClima.setChecked(false);
-        cCalentador.setChecked(false);
-        cCalefaccion.setChecked(false);
-        cAlarma.setChecked(false);
-        cElectro.setChecked(false);
-
-        cAvisos.setChecked(false);
-
-    }
-
 
     /**
      * Populate the Spinner.
@@ -268,11 +223,13 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
     }
 
     /**
-     * Attempts to edit the account specified by the login form.
+     * Attempts to edit the account specified.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
+
     private void attemptEditarPerfil() {
+
         if (mAuthTask != null) {
             return;
         }
@@ -414,8 +371,8 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
+
         } else {
-            String s = String.valueOf(electricidad);
             // Show a progress spinner, and kick off a background task to
             // perform the user registration attempt.
 
@@ -432,24 +389,21 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
     }
 
     private boolean isEmailValid(String email) {
-        return true;
-        //return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     private boolean isDniValid(String dni) {
-
         return dni.matches("(([X-Z]{1})([-]?)(\\d{7})([-]?)([A-Z]{1}))|((\\d{8})([-]?)([A-Z]{1}))");
     }
 
     private boolean isTelefonoValid(String telefono) {
-        return true;
-        //return Patterns.PHONE.matcher(telefono).matches();
+        return Patterns.PHONE.matcher(telefono).matches();
     }
 
     private boolean isCodigoPostalValid(String cp) {
-        return true;
-        //return cp.matches("^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$");
+        return cp.matches("^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$");
     }
+
     private boolean isRadioValid(String radio) {
         return  Integer.valueOf(radio)<=50;
 
@@ -567,8 +521,13 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
                 String url_base = sharedpreferences.getString("URL_BASE", "");
                 String id = sharedpreferences.getString("ID_TECNICO", "-1");
 
-                String notificaciones = "0";
 
+                /*Tenemos que convertir los datos para realizar el paso de datos al servidor
+                  true -> 1
+                  false -> 0
+                 */
+
+                String notificaciones = "0";
 
                 if(mAvisos.equals("true")){
                     notificaciones="1";
@@ -630,6 +589,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
                     categorias = categorias.substring(0,categorias.length()-1);
                 }
 
+                //Construimos la URL
                 StringBuilder sb = new StringBuilder();
                 sb.append(url_base);
                 sb.append("editar-perfil.php?");
@@ -656,7 +616,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
                 sb.append("&categorias=");
                 sb.append(categorias);
 
-
                 String urlEditar = sb.toString();
 
                 URL url = new URL(urlEditar);
@@ -664,11 +623,8 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
                 BufferedReader response = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
                 String presupuesto = response.readLine();
-                Log.d("editar perfil",urlEditar);
-                Log.d("editar perfil",presupuesto);
 
                 if(presupuesto.equals("Se actualizaron tus datos")){
-
                     return true;
                 }else{
                     return false;
@@ -722,6 +678,8 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
             try {
 
+                //Construimos la URL
+
                 String url_base = sharedpreferences.getString("URL_BASE", "");
 
                 StringBuilder sb = new StringBuilder();
@@ -737,6 +695,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
                 String datosPerfil = response.readLine();
 
+                //Parseamos los datos que viene separados por comas
                 if(!datosPerfil.equals("Error")){
                     datosArray = datosPerfil.split(",");
                     return true;
@@ -757,6 +716,9 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             showProgress(false);
 
             if (success) {
+
+                //Rellenamos el formulario
+
                 int longitud = datosArray.length;
 
                 mEmailView.setText(datosArray[2]);
