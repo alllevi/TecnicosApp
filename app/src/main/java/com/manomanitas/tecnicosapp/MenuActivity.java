@@ -1,9 +1,11 @@
 package com.manomanitas.tecnicosapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
@@ -60,6 +62,30 @@ public class MenuActivity extends AppCompatActivity {
 
     public void onClick_cerrarSesion(View view) {
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
+
+        builder.setMessage("Dejará de recibir notificaciones de avisos")
+                .setTitle("¿Quiere cerrar su sesión?");
+
+        builder.setPositiveButton("Cerrar sesión", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Cerramos la sesion
+                cerrarSesion();
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //No hacemos nada
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+    }
+
+    private void cerrarSesion(){
         try {
             //Establecemos el id del tecnico a -1
             SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -72,7 +98,5 @@ public class MenuActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Se ha producido un error", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-
-
     }
 }

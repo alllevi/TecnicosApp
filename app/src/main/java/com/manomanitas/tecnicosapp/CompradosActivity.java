@@ -29,7 +29,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CompradosActivity extends AppCompatActivity {
@@ -169,6 +171,8 @@ public class CompradosActivity extends AppCompatActivity {
         }
     }
 
+
+
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -275,8 +279,11 @@ public class CompradosActivity extends AppCompatActivity {
                             -> categoria, ciudad, provincia, nombre, telefono, email, descripcion, fecha
                          */
 
+                        //Transformamos la fecha
+                        String haceDias = formatDate(presupuestoArray[7]);
+
                         try {
-                            lista_comprados.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[6], presupuestoArray[7], presupuestoArray[3], presupuestoArray[4], presupuestoArray[5]));
+                            lista_comprados.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[6], haceDias, presupuestoArray[3], presupuestoArray[4], presupuestoArray[5]));
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -293,6 +300,34 @@ public class CompradosActivity extends AppCompatActivity {
             } finally {
                 urlConnection.disconnect();
             }
+        }
+
+        private String formatDate(String fecha){
+
+            SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            try {
+                Date datePresupuesto = formatDate.parse(fecha);
+                Date now = new Date();
+                String d = formatDate.format(now);
+                Date dateActual = formatDate.parse(d);
+
+                long diff = dateActual.getTime() - datePresupuesto.getTime();
+
+                long diffDays = diff / (24 * 60 * 60 * 1000);
+
+                String haceDias = "Hace "+diffDays+" días";
+
+                if(haceDias.equals("Hace 0 días")){
+                    return "Hoy";
+                } else{
+                    return haceDias;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "";
         }
 
         @Override

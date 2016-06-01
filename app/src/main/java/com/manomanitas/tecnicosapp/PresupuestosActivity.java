@@ -31,7 +31,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PresupuestosActivity extends AppCompatActivity {
@@ -116,7 +118,7 @@ public class PresupuestosActivity extends AppCompatActivity {
         public void onBindViewHolder(PresupuestoViewHolder holder, final int position) {
             holder.tw_categoria.setText(presupuestos.get(position).getCategoria());
             holder.tw_municipio.setText(presupuestos.get(position).getMunicipio());
-            holder.tw_provincia.setText(presupuestos.get(position).getProvincia());
+            holder.tw_provincia.setText("("+presupuestos.get(position).getProvincia()+")");
             holder.tw_averia.setText(presupuestos.get(position).getAveria());
             //holder.tw_kilometros.setText(presupuestos.get(position).getKilometros());
             holder.tw_precio.setText(presupuestos.get(position).getPrecio());
@@ -231,7 +233,7 @@ public class PresupuestosActivity extends AppCompatActivity {
     }
 
     /**
-     * Represents an asynchronous login task used to authenticate
+     * Represents an asynchronous load presupuestos task
      * the user.
      */
     public class PresupuestosTask extends AsyncTask<Void, Void, Boolean> {
@@ -300,8 +302,11 @@ public class PresupuestosActivity extends AppCompatActivity {
                             respuesta php ->Categoria, ciudad, provincia, descripcion, nombre, telefono, email, fecha
                          */
 
+                        //Transformamos la fecha
+                        String haceDias = formatDate(presupuestoArray[8]);
+
                         try {
-                            lista_presupuestos.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[3], presupuestoArray[4],"¡Gratis!", presupuestoArray[8], presupuestoArray[5], presupuestoArray[6], presupuestoArray[7]));
+                            lista_presupuestos.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[3], presupuestoArray[4],"¡Gratis!", haceDias, presupuestoArray[5], presupuestoArray[6], presupuestoArray[7]));
 
                         }catch (Exception e){
                             e.printStackTrace();
@@ -320,6 +325,34 @@ public class PresupuestosActivity extends AppCompatActivity {
                 urlConnection.disconnect();
             }
 
+        }
+
+        private String formatDate(String fecha){
+
+            SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            try {
+                Date datePresupuesto = formatDate.parse(fecha);
+                Date now = new Date();
+                String d = formatDate.format(now);
+                Date dateActual = formatDate.parse(d);
+
+                long diff = dateActual.getTime() - datePresupuesto.getTime();
+
+                long diffDays = diff / (24 * 60 * 60 * 1000);
+
+                String haceDias = "Hace "+diffDays+" días";
+
+                if(haceDias.equals("Hace 0 días")){
+                    return "Hoy";
+                } else{
+                    return haceDias;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "";
         }
 
         @Override
