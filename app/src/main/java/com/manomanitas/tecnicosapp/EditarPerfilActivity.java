@@ -47,7 +47,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
     // UI references.
     private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
     private EditText mNombreView;
     private EditText mDniView;
     private EditText mTelefonoView;
@@ -86,7 +85,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        mPasswordView = (EditText) findViewById(R.id.password);
         mNombreView = (EditText) findViewById(R.id.nombre_registro);
         mDniView = (EditText) findViewById(R.id.dni_registro);
         mTelefonoView = (EditText) findViewById(R.id.telefono_registro);
@@ -113,17 +111,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
         mPerfilFormView = findViewById(R.id.registro_form);
         mProgressView = findViewById(R.id.registro_progress);
-
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptEditarPerfil();
-                    return true;
-                }
-                return false;
-            }
-        });
 
         //Rellenamos los spinners de las provincias
         loadSpinnerProvincias();
@@ -236,7 +223,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
         // Reset errors.
         mEmailView.setError(null);
-        mPasswordView.setError(null);
         mNombreView.setError(null);
         mDniView.setError(null);
         mTelefonoView.setError(null);
@@ -247,7 +233,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
         String nombre = mNombreView.getText().toString();
         String dni = mDniView.getText().toString();
         String telefono = mTelefonoView.getText().toString();
@@ -281,12 +266,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         } else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
-            cancel = true;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
             cancel = true;
         }
 
@@ -380,7 +359,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
             if (conexionGuardar) {
                 showProgress(true);
-                mAuthTask = new GuardarPerfilTask(email, password, nombre, dni, telefono, codigoPostal, radio, provincia, municipio, String.valueOf(electricidad), String.valueOf(fontaneria), String.valueOf(cerrajero), String.valueOf(video), String.valueOf(antenista), String.valueOf(telefonillo), String.valueOf(clima), String.valueOf(calentador), String.valueOf(calefaccion), String.valueOf(alarma), String.valueOf(electro), String.valueOf(aviso));
+                mAuthTask = new GuardarPerfilTask(email,nombre, dni, telefono, codigoPostal, radio, provincia, municipio, String.valueOf(electricidad), String.valueOf(fontaneria), String.valueOf(cerrajero), String.valueOf(video), String.valueOf(antenista), String.valueOf(telefonillo), String.valueOf(clima), String.valueOf(calentador), String.valueOf(calefaccion), String.valueOf(alarma), String.valueOf(electro), String.valueOf(aviso));
                 mAuthTask.execute((Void) null);
             }
 
@@ -463,7 +442,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
     public class GuardarPerfilTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
-        private final String mPassword;
         private final String mNombre;
         private final String mDni;
         private final String mTelefono;
@@ -489,9 +467,8 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         private final String mAvisos;
 
 
-        GuardarPerfilTask(String email, String password, String nombre, String dni, String telefono, String cp, String radio, String provincia, String municipio, String electricidad, String fontaneria, String cerrajero, String video, String antentista, String telefonillo, String clima, String calentador, String calefaccion, String alarma, String electro, String avisos) {
+        GuardarPerfilTask(String email, String nombre, String dni, String telefono, String cp, String radio, String provincia, String municipio, String electricidad, String fontaneria, String cerrajero, String video, String antentista, String telefonillo, String clima, String calentador, String calefaccion, String alarma, String electro, String avisos) {
             mEmail = email;
-            mPassword = password;
             mNombre = nombre;
             mDni = dni;
             mTelefono = telefono;

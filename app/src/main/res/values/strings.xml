@@ -6,6 +6,7 @@
     <string name="title_activity_presupuestos">Presupuestos</string>
     <string name="title_activity_detalles">Detalles presupuesto</string>
     <string name="title_activity_presupuestos_comprados">Presupuestos comprados</string>
+    <string name="project_number">1018780314429</string>
 
 
     <!-- Strings related to Menu principal -->
@@ -81,6 +82,8 @@
     <string name="label_telefonoP">Teléfono:</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="action_edit_perfil">Editar perfil</string>
+
+
 
 
 </resources>

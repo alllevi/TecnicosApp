@@ -8,7 +8,12 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
+
 public class MainActivity extends AppCompatActivity {
+
 
     private final String SHARED_PREFS_FILE = "manomanitasConf";
     private final String URL_BASE = "http://www.manomanitas.es/solicitar-presupuesto/appmovil/";
@@ -17,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
     @Override
