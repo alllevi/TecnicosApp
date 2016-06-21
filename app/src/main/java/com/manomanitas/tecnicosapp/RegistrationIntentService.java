@@ -20,21 +20,31 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
     private final String SHARED_PREFS_FILE = "manomanitasConf";
+    private SharedPreferences sharedPreferences;
+
+    private darDeAltaTask mAuthTask = null;
+    private HttpURLConnection urlConnection;
 
     public RegistrationIntentService() {
         super(TAG);
@@ -42,7 +52,9 @@ public class RegistrationIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
+
+        String id = sharedPreferences.getString("ID_TECNICO", "-1");
 
         try {
             // [START register_for_gcm]
@@ -61,7 +73,7 @@ public class RegistrationIntentService extends IntentService {
             Log.i(TAG, "GCM Registration Token: " + token);
 
             // TODO: Implement this method to send any registration to your app's servers.
-            sendRegistrationToServer(token);
+            sendRegistrationToServer(token,id);
 
             // Subscribe to topic channels
             //subscribeTopics(token);
@@ -90,9 +102,11 @@ public class RegistrationIntentService extends IntentService {
      *
      * @param token The new token.
      */
-    private void sendRegistrationToServer(String token) {
+    private void sendRegistrationToServer(String token , String id) {
         // Add custom implementation, as needed.
-        //throw new RuntimeException("Se ha producido una excepción con el mensaje: ");
+
+        mAuthTask = new darDeAltaTask(id,token);
+        mAuthTask.execute((Void) null);
     }
 
     /**
@@ -109,5 +123,86 @@ public class RegistrationIntentService extends IntentService {
         }
     }*/
     // [END subscribe_topics]
+
+    /**
+     * Represents an asynchronous dar de baja task
+     * the user.
+     */
+    public class darDeAltaTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String idTecnico;
+        private final String token;
+
+        darDeAltaTask(String id, String tk) {
+
+            idTecnico = id;
+            token = tk;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            try {
+
+                //Obtenemos objeto sharedPreferences
+                sharedPreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
+                String url_base = sharedPreferences.getString("URL_BASE", "");
+
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(url_base);
+                sb.append("insertar_token.php?");
+                sb.append("idTecnico=");
+                sb.append(idTecnico);
+                sb.append("&token=");
+                sb.append(token);
+
+                String urlAlta = sb.toString();
+                Log.d("tagRegister",urlAlta);
+                URL url = new URL(urlAlta);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+
+                String line = buffer.readLine();
+
+                if (line.equals("No hay token")) {
+
+                    return false;
+
+                } else if (line.equals("No se pudo modificar tu registro")){
+
+                    return false;
+
+                } else {
+                    return true;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+
+            } finally {
+                urlConnection.disconnect();
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+            if (success) {
+
+
+            } else {
+                Toast.makeText(getApplicationContext(), "No se ha podido actualizar el registro de notificaciones", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
+    }
 
 }

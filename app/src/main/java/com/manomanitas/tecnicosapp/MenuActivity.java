@@ -1,11 +1,18 @@
 package com.manomanitas.tecnicosapp;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
@@ -17,11 +24,22 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.manomanitas.tecnicosapp.PresupuestosPackage.presupuesto;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MenuActivity extends AppCompatActivity {
 
     private final String SHARED_PREFS_FILE = "manomanitasConf";
     private SharedPreferences sharedpreferences;
+
+    private darDeBajaTask mAuthTask = null;
+    private HttpURLConnection urlConnection;
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "Menu activity";
@@ -37,12 +55,9 @@ public class MenuActivity extends AppCompatActivity {
         //Obtenemos objeto sharedPreferences
         sharedpreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
 
-
-
         //Si no tenemos registrado un servicio de notificaciones, mandamos la solicitud
         activado = sharedpreferences.getString("GCM", "false");
-        Log.d("activado","------------------");
-        Log.d("activado",activado);
+
         if(activado.equals("false")) {
 
             mRegistrationBroadcastReceiver = new BroadcastReceiver() {
@@ -69,7 +84,6 @@ public class MenuActivity extends AppCompatActivity {
             registerReceiver();
 
             if (checkPlayServices()) {
-                //Check internet??
                 // Start IntentService to register this application with GCM.
                 Intent intent = new Intent(this, RegistrationIntentService.class);
                 startService(intent);
@@ -184,8 +198,32 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
+    private boolean checkInternet(){
+
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        } else {
+            Toast.makeText(getApplicationContext(), "Compruebe su conexión a internet", Toast.LENGTH_SHORT).show();
+            return false;
+
+        }
+    }
+
     private void cerrarSesion(){
         try {
+
+            boolean conexion = checkInternet();
+
+            if (conexion) {
+                //Obtenemos id del tecnico de shared preferences y cargamos los datos
+                String id = sharedpreferences.getString("ID_TECNICO", "-1");
+                mAuthTask = new darDeBajaTask(id);
+                mAuthTask.execute((Void) null);
+            }
+
             //Establecemos el id del tecnico a -1
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString("ID_TECNICO", "-1");
@@ -197,6 +235,77 @@ public class MenuActivity extends AppCompatActivity {
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "Se ha producido un error", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Represents an asynchronous dar de baja task
+     * the user.
+     */
+    public class darDeBajaTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String idTecnico;
+
+        darDeBajaTask(String id) {
+
+            idTecnico = id;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            try {
+
+                String url_base = sharedpreferences.getString("URL_BASE", "");
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(url_base);
+                sb.append("baja_tecnico.php?");
+                sb.append("idTecnico=");
+                sb.append(idTecnico);
+
+                String urlBaja = sb.toString();
+                URL url = new URL(urlBaja);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+
+                String line = buffer.readLine();
+
+                if (line.equals("Se ha borrado")) {
+
+                    return true;
+
+                } else {
+
+                    return false;
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+
+            } finally {
+                urlConnection.disconnect();
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+            if (success) {
+
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Se ha producido un error inesperado", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
         }
     }
 }
