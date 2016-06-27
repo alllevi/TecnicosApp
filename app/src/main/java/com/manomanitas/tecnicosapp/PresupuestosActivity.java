@@ -3,9 +3,7 @@ package com.manomanitas.tecnicosapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -40,6 +38,7 @@ public class PresupuestosActivity extends AppCompatActivity {
 
 
     private PresupuestosTask mAuthTask = null;
+    private comprarTask mAuthTask2 = null;
     private final String SHARED_PREFS_FILE = "manomanitasConf";
 
     private SharedPreferences sharedpreferences;
@@ -47,6 +46,8 @@ public class PresupuestosActivity extends AppCompatActivity {
 
     private View mProgressView;
     private View mPresupuestosFormView;
+
+    private Intent  intentComprado;
 
 
     private List<presupuesto> lista_presupuestos = new ArrayList<>();
@@ -141,20 +142,33 @@ public class PresupuestosActivity extends AppCompatActivity {
          */
         private void enviarP(presupuesto p) {
 
-            try {
-                Intent intent = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, DetallePresupuestoActivity.class);
-                intent.putExtra("categoria",p.getCategoria());
-                intent.putExtra("municipio",p.getMunicipio());
-                intent.putExtra("provincia",p.getProvincia());
-                intent.putExtra("nombre",p.getNombre());
-                intent.putExtra("telefono",p.getTelefono());
-                intent.putExtra("email",p.getEmail());
-                intent.putExtra("descripcion",p.getAveria());
-                startActivity(intent);
-            } catch (Exception e) {
-                Toast.makeText(getApplicationContext(), "No se ha podido acceder a detalles", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();}
+            boolean conexion = checkInternet();
 
+            if (conexion) {
+
+                try {
+                    intentComprado = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, DetallePresupuestoActivity.class);
+                    intentComprado.putExtra("categoria", p.getCategoria());
+                    intentComprado.putExtra("municipio", p.getMunicipio());
+                    intentComprado.putExtra("provincia", p.getProvincia());
+                    intentComprado.putExtra("nombre", p.getNombre());
+                    intentComprado.putExtra("telefono", p.getTelefono());
+                    intentComprado.putExtra("email", p.getEmail());
+                    intentComprado.putExtra("descripcion", p.getAveria());
+
+                    //Comprar presupuesto
+
+                    String idTecnico = sharedpreferences.getString("ID_TECNICO", "-1");
+                    mAuthTask2 = new comprarTask(idTecnico, p.getId());
+                    mAuthTask2.execute((Void) null);
+
+
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "No se ha podido acceder a detalles", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+            }
         }
 
         @Override
@@ -370,6 +384,91 @@ public class PresupuestosActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mAuthTask = null;
+            showProgress(false);
+        }
+    }
+
+    /**
+     * Represents an asynchronous comprar task
+     * the user.
+     */
+    public class comprarTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String idTecnico;
+        private final String idPresupuesto;
+
+
+        comprarTask(String id, String presupuesto) {
+
+            idTecnico = id;
+            idPresupuesto = presupuesto;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            try {
+
+                String url_base = sharedpreferences.getString("URL_BASE", "");
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(url_base);
+                sb.append("comprados.php?");
+                sb.append("id_tecnico=");
+                sb.append(idTecnico);
+                sb.append("&id_presupuesto=");
+                sb.append(idPresupuesto);
+
+                String urlComprar = sb.toString();
+                Log.d("LOG_COMPRADO",urlComprar);
+
+                URL url = new URL(urlComprar);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                //StringBuilder sb_response = new StringBuilder();
+                //Los datos ya los tengo de otra consulta --> mejora en un futuro
+
+                String line = buffer.readLine();
+
+                //¿Que pasa si devuelve un 0?
+
+                if(line.equals("No hay presupuestos comprados")){
+
+                    //Mensaje error
+                    return false;
+
+                } else{
+
+                    return true;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+
+            } finally {
+                urlConnection.disconnect();
+            }
+
+        }
+
+       @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask2 = null;
+            showProgress(false);
+            if (success) {
+                Toast.makeText(getApplicationContext(), "Presupuesto comprado", Toast.LENGTH_SHORT).show();
+                startActivity(intentComprado);
+
+            } else {
+                Toast.makeText(getApplicationContext(), "No hay presupuestos comprados", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask2 = null;
             showProgress(false);
         }
     }

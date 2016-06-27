@@ -125,7 +125,7 @@ public class RegistrationIntentService extends IntentService {
     // [END subscribe_topics]
 
     /**
-     * Represents an asynchronous dar de baja task
+     * Represents an asynchronous dar de alta task
      * the user.
      */
     public class darDeAltaTask extends AsyncTask<Void, Void, Boolean> {
