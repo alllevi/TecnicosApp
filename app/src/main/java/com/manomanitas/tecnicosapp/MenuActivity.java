@@ -86,6 +86,20 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("¿Cerrar la aplicación?")
+                .setMessage("¿Esta seguro que desea cerrar la aplicación?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        MenuActivity.super.onBackPressed();
+                    }
+                }).create().show();
+    }
+
+    @Override
     protected void onPause() {
         if(activado.equals("false")) {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);

@@ -229,8 +229,8 @@ public class CompradosActivity extends AppCompatActivity {
 
                 StringBuilder sb = new StringBuilder();
                 sb.append(url_base);
-                sb.append("comprados.php?");
-                sb.append("id=");
+                sb.append("ver_comprados.php?");
+                sb.append("id_tecnico=");
                 sb.append(idTecnico);
 
                 String urlLogin = sb.toString();

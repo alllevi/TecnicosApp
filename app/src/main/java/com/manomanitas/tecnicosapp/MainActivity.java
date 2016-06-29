@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         if(!id.equals("-1")){
             Intent intent = new Intent(this, MenuActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
 
     }
 

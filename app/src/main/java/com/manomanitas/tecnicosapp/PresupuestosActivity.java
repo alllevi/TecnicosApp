@@ -413,7 +413,7 @@ public class PresupuestosActivity extends AppCompatActivity {
 
                 StringBuilder sb = new StringBuilder();
                 sb.append(url_base);
-                sb.append("comprados.php?");
+                sb.append("comprar.php?");
                 sb.append("id_tecnico=");
                 sb.append(idTecnico);
                 sb.append("&id_presupuesto=");
@@ -438,10 +438,17 @@ public class PresupuestosActivity extends AppCompatActivity {
                     //Mensaje error
                     return false;
 
-                } else{
+                } else if (line.equals("0")){
+
+                    return false;
+                } else if (line.contains("~~")){
 
                     return true;
+                } else {
+
+                    return false;
                 }
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -462,7 +469,7 @@ public class PresupuestosActivity extends AppCompatActivity {
                 startActivity(intentComprado);
 
             } else {
-                Toast.makeText(getApplicationContext(), "No hay presupuestos comprados", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "No se ha podido comprar", Toast.LENGTH_SHORT).show();
             }
         }
 
