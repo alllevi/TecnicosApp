@@ -11,16 +11,18 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <permission android:name="com.manomanitas.tecnicosapp.permission.C2D_MESSAGE"
-        android:protectionLevel="signature"/>
-    <uses-permission android:name="com.manomanitas.tecnicosapp.permission.C2D_MESSAGE"/>
+    <permission
+        android:name="com.manomanitas.tecnicosapp.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.manomanitas.tecnicosapp.permission.C2D_MESSAGE" />
 
     <application
+        android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name="android.support.multidex.MultiDexApplication"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -41,9 +43,7 @@
         </activity>
         <activity
             android:name=".MenuActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".EditarPerfilActivity"
             android:label="@string/title_activity_editar_perfil"
@@ -68,8 +68,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.manomanitas.tecnicosapp.PresupuestosActivity" />
         </activity>
-
-        <activity android:name=".CompradosActivity"
+        <activity
+            android:name=".CompradosActivity"
             android:label="@string/title_activity_presupuestos_comprados"
             android:screenOrientation="portrait">
             <meta-data
@@ -77,6 +77,10 @@
                 android:value="com.manomanitas.tecnicosapp.MenuActivity" />
         </activity>
 
+        <activity android:name=".PostComprarActivity"
+            android:label="@string/title_activity_post_compra"
+            android:screenOrientation="portrait">
+        </activity>
 
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -86,20 +90,20 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.manomanitas.tecnicosapp" />
             </intent-filter>
         </receiver>
 
         <service
             android:name=".MyGcmListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -111,15 +115,11 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-
         <service
             android:name=".RegistrationIntentService"
-            android:exported="false">
-        </service>
+            android:exported="false" />
 
 
     </application>
-
-
 
 </manifest>

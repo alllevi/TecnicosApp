@@ -68,7 +68,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Área técnico"
+        android:text="@string/tv_menu_areaTecnico"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_marginTop="45dp"

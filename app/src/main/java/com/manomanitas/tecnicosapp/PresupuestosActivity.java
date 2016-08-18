@@ -47,7 +47,7 @@ public class PresupuestosActivity extends AppCompatActivity {
     private View mProgressView;
     private View mPresupuestosFormView;
 
-    private Intent  intentComprado;
+    private Intent intentPostCompra;
 
 
     private List<presupuesto> lista_presupuestos = new ArrayList<>();
@@ -144,9 +144,19 @@ public class PresupuestosActivity extends AppCompatActivity {
 
             boolean conexion = checkInternet();
 
-            if (conexion) {
+                // --- ABRIR PARA PAGAR ---
 
-                try {
+                ///----------------
+
+                 intentPostCompra = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, PostComprarActivity.class);
+                 startActivity(intentPostCompra);
+                 finish();
+
+            if (conexion) {
+                //intentPostCompra = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, PostComprarActivity.class);
+
+
+                /*try {
                     intentComprado = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, DetallePresupuestoActivity.class);
                     intentComprado.putExtra("categoria", p.getCategoria());
                     intentComprado.putExtra("municipio", p.getMunicipio());
@@ -166,7 +176,7 @@ public class PresupuestosActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "No se ha podido acceder a detalles", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
-                }
+                }*/
 
             }
         }
@@ -320,7 +330,7 @@ public class PresupuestosActivity extends AppCompatActivity {
                         String haceDias = formatDate(presupuestoArray[8]);
 
                         try {
-                            lista_presupuestos.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[3], presupuestoArray[4],"¡Gratis!", haceDias, presupuestoArray[5], presupuestoArray[6], presupuestoArray[7]));
+                            lista_presupuestos.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[3], presupuestoArray[4],presupuestoArray[9], haceDias, presupuestoArray[5], presupuestoArray[6], presupuestoArray[7]));
 
                         }catch (Exception e){
                             e.printStackTrace();
@@ -466,7 +476,7 @@ public class PresupuestosActivity extends AppCompatActivity {
             showProgress(false);
             if (success) {
                 Toast.makeText(getApplicationContext(), "Presupuesto comprado", Toast.LENGTH_SHORT).show();
-                startActivity(intentComprado);
+                //startActivity(intentComprado);
 
             } else {
                 Toast.makeText(getApplicationContext(), "No se ha podido comprar", Toast.LENGTH_SHORT).show();

@@ -6,6 +6,7 @@
     <string name="title_activity_presupuestos">Presupuestos</string>
     <string name="title_activity_detalles">Detalles presupuesto</string>
     <string name="title_activity_presupuestos_comprados">Presupuestos comprados</string>
+    <string name="title_activity_post_compra">Manomanitas</string>
     <string name="project_number">1018780314429</string>
 
 
@@ -63,7 +64,7 @@
     <string name="avisos_registro">Deseo recibir nuevos avisos de trabajos en mi correo electrónico</string>
 
     <!-- Strings related to Presupuestos -->
-    <string name="presupuestos_enviar_propuesta">Enviar propuesta</string>
+    <string name="presupuestos_enviar_propuesta">Comprar</string>
 
     <!-- Strings related to Spinner provincia y municipio -->
     <string name="provincia">Provincia</string>
@@ -82,8 +83,10 @@
     <string name="label_telefonoP">Teléfono:</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="action_edit_perfil">Editar perfil</string>
-
-
+    <string name="title_activity_post_comprar">PostComprar</string>
+    <string name="bt_postComprar_comprados">Ver comprados</string>
+    <string name="bt_postComprar_seguirComprando">Seguir comprando</string>
+    <string name="tv_menu_areaTecnico">Área técnico</string>
 
 
 </resources>
