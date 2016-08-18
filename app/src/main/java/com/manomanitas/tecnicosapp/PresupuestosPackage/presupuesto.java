@@ -21,7 +21,8 @@ public class presupuesto {
     private String telefono;
     private String email;
 
-    public presupuesto(String id,String categoria, String municipio, String provincia, String averia, String precio, String haceDias, String nombre, String telefono, String email) {
+    //Utilizado en PresupuestosActivity
+    public presupuesto(String id,String categoria, String municipio, String provincia, String averia, String precio, String haceDias) {
         this.id=id;
         this.categoria = categoria;
         this.municipio = municipio;
@@ -29,11 +30,9 @@ public class presupuesto {
         this.averia = averia;
         this.precio = precio;
         this.haceDias = haceDias;
-        this.nombre=nombre;
-        this.telefono=telefono;
-        this.email=email;
     }
 
+    //Utilizado en CompradosActivity
     public presupuesto(String categoria, String municipio, String provincia, String averia,String haceDias, String nombre, String telefono, String email) {
 
         this.categoria = categoria;
@@ -45,8 +44,6 @@ public class presupuesto {
         this.telefono = telefono;
         this.email = email;
     }
-
-
 
     public String getId() {
         return id;

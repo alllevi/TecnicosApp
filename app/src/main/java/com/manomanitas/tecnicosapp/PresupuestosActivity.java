@@ -144,16 +144,16 @@ public class PresupuestosActivity extends AppCompatActivity {
 
             boolean conexion = checkInternet();
 
+
+            if (conexion) {
+
                 // --- ABRIR PARA PAGAR ---
 
                 ///----------------
 
-                 intentPostCompra = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, PostComprarActivity.class);
-                 startActivity(intentPostCompra);
-                 finish();
-
-            if (conexion) {
-                //intentPostCompra = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, PostComprarActivity.class);
+                intentPostCompra = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, PostComprarActivity.class);
+                startActivity(intentPostCompra);
+                finish();
 
 
                 /*try {
@@ -280,7 +280,7 @@ public class PresupuestosActivity extends AppCompatActivity {
 
                 StringBuilder sb = new StringBuilder();
                 sb.append(url_base);
-                sb.append("presupuestos.php?");
+                sb.append("presupuestos_new.php?");
                 sb.append("idTecnico=");
                 sb.append(idTecnico);
 
@@ -327,10 +327,10 @@ public class PresupuestosActivity extends AppCompatActivity {
                          */
 
                         //Transformamos la fecha
-                        String haceDias = formatDate(presupuestoArray[8]);
+                        String haceDias = formatDate(presupuestoArray[5]);
 
                         try {
-                            lista_presupuestos.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[3], presupuestoArray[4],presupuestoArray[9], haceDias, presupuestoArray[5], presupuestoArray[6], presupuestoArray[7]));
+                            lista_presupuestos.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[3], presupuestoArray[4],presupuestoArray[6], haceDias));
 
                         }catch (Exception e){
                             e.printStackTrace();
