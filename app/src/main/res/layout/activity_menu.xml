@@ -7,78 +7,78 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.manomanitas.tecnicosapp.MenuActivity">
+    tools:context="com.manomanitas.tecnicosapp.MenuActivity"
+    android:background="@color/background_manomanitas">
 
-    <Button
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/idPresupuestos"
-        android:text="@string/menu_presupuestos"
-        android:textColor="@android:color/white"
-        android:background="@color/colorPrimary"
-        android:textSize="@dimen/sizeTextBt"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"
-        android:onClick="onClick_presupuestos" />
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_comprados"
-        android:id="@+id/idComprados"
-        android:textColor="@android:color/white"
-        android:background="@color/colorPrimary"
-        android:textSize="@dimen/sizeTextBt"
-        android:layout_below="@+id/idPresupuestos"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:onClick="onClick_comprados" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/idPresupuestos"
+            android:text="@string/menu_presupuestos"
+            android:textColor="@android:color/primary_text_light"
+            android:background="@drawable/border_button"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="20sp"
+            android:textSize="@dimen/sizeTextBt"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="true"
+            android:onClick="onClick_presupuestos" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_perfil"
-        android:id="@+id/idMiPerfil"
-        android:textColor="@android:color/white"
-        android:background="@color/colorPrimary"
-        android:textSize="@dimen/sizeTextBt"
-        android:layout_below="@+id/idComprados"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:onClick="onClick_miPerfil" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_comprados"
+            android:id="@+id/idComprados"
+            android:textColor="@android:color/primary_text_light"
+            android:background="@drawable/border_button"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="20sp"
+            android:textSize="@dimen/sizeTextBt"
+            android:layout_below="@+id/idPresupuestos"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="true"
+            android:onClick="onClick_comprados" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/cerrar_sesion"
-        android:id="@+id/idCerrarSesion"
-        android:textColor="@android:color/white"
-        android:background="@color/colorPrimary"
-        android:textSize="@dimen/sizeTextBt"
-        android:onClick="onClick_cerrarSesion"
-        android:layout_below="@+id/idMiPerfil"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_perfil"
+            android:id="@+id/idMiPerfil"
+            android:textColor="@android:color/primary_text_light"
+            android:background="@drawable/border_button"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="20sp"
+            android:textSize="@dimen/sizeTextBt"
+            android:layout_below="@+id/idComprados"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="true"
+            android:onClick="onClick_miPerfil" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_menu_areaTecnico"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="45dp"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        android:textColor="@color/abc_primary_text_material_light"
-        android:layout_alignWithParentIfMissing="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
-        android:gravity="center" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cerrar_sesion"
+            android:id="@+id/idCerrarSesion"
+            android:textColor="@android:color/primary_text_light"
+            android:background="@drawable/border_button"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="20sp"
+            android:textSize="@dimen/sizeTextBt"
+            android:onClick="onClick_cerrarSesion"
+            android:layout_below="@+id/idMiPerfil"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="45dp" />
+    </LinearLayout>
 
 
 </RelativeLayout>

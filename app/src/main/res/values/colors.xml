@@ -3,4 +3,5 @@
     <color name="colorPrimary">#ff9d00</color>
     <color name="colorPrimaryDark">#ff8c00</color>
     <color name="colorAccent">#000000</color>
+    <color name="background_manomanitas">#f2f2f2</color>
 </resources>

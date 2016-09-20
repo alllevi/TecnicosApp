@@ -40,11 +40,15 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+        //editor.putString("ID_TECNICO","25");
+        //editor.commit();
     }
 
     public void onClick_entrar(View view) {
 
         Intent intent = new Intent(this, LoginActivity.class);
+        //Intent intent = new Intent(getBaseContext(), MenuActivity.class);
         startActivity(intent);
         finish();
 
