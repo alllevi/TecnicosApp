@@ -237,7 +237,7 @@ public class MenuActivity extends AppCompatActivity {
             editor.putString("GCM", "false");
             editor.commit();
 
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "Se ha producido un error", Toast.LENGTH_SHORT).show();

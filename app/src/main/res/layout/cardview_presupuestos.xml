@@ -21,23 +21,18 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/my_border"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="15dp">
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="1dp">
+                    android:layout_height="match_parent">
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/colorPrimary"
-                        android:layout_marginTop="0dp">
+                        android:background="@color/colorPrimary">
 
                         <LinearLayout
                             android:orientation="horizontal"
@@ -52,7 +47,8 @@
                                 android:textColor="@color/abc_primary_text_material_light"
                                 android:layout_marginLeft="@dimen/text_margin"
                                 android:layout_marginTop="@dimen/text_margin"
-                                android:layout_marginRight="@dimen/text_margin" />
+                                android:layout_marginRight="@dimen/text_margin"
+                                android:text="Clima" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -62,7 +58,8 @@
                                 android:textColor="@color/abc_primary_text_material_light"
                                 android:layout_marginLeft="@dimen/text_margin"
                                 android:layout_marginTop="@dimen/text_margin"
-                                android:layout_marginRight="@dimen/text_margin" />
+                                android:layout_marginRight="@dimen/text_margin"
+                                android:text="Valencia" />
 
                         </LinearLayout>
 
@@ -73,7 +70,8 @@
                             android:gravity="right"
                             android:layout_marginRight="@dimen/text_margin"
                             android:layout_marginBottom="10dp"
-                            android:textColor="@color/abc_primary_text_material_light" />
+                            android:textColor="@color/abc_primary_text_material_light"
+                            android:text="Valencia" />
 
                     </LinearLayout>
 
@@ -91,7 +89,8 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/idAveria"
                             android:nestedScrollingEnabled="false"
-                            android:textColor="@color/abc_primary_text_material_light" />
+                            android:textColor="@color/abc_primary_text_material_light"
+                            android:text="aosncosdfnvadoifvpaodsgfapsdongaodspfgnadfpgado" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -119,7 +118,8 @@
                                 android:layout_height="match_parent"
                                 android:id="@+id/idPrecio"
                                 android:layout_margin="10dp"
-                                android:textColor="@color/abc_primary_text_material_light" />
+                                android:textColor="@color/abc_primary_text_material_light"
+                                android:text="3 € + IVA" />
                         </LinearLayout>
 
 
@@ -145,19 +145,28 @@
                                 android:id="@+id/idHaceDias"
                                 android:layout_margin="10dp"
                                 android:gravity="right"
-                                android:textColor="@color/abc_primary_text_material_light" />
+                                android:textColor="@color/abc_primary_text_material_light"
+                                android:text="Jueves 23" />
                         </LinearLayout>
 
                     </LinearLayout>
 
                     <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
                         android:id="@+id/enviarPropuesta_bt"
-                        android:background="#bdbdbd"
                         android:textColor="@color/colorPrimaryDark"
                         android:textStyle="normal"
-                        android:text="@string/presupuestos_enviar_propuesta" />
+                        android:text="@string/presupuestos_enviar_propuesta"
+                        android:background="@drawable/border_button_redondo"
+                        android:layout_marginLeft="20dp" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/background_manomanitas"></LinearLayout>
 
                 </LinearLayout>
 

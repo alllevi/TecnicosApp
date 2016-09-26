@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.manomanitas.tecnicosapp.PresupuestosActivity">
+    tools:context="com.manomanitas.tecnicosapp.PresupuestosActivity"
+    android:background="@color/background_manomanitas">
 
     <!-- Data load progress -->
     <ProgressBar

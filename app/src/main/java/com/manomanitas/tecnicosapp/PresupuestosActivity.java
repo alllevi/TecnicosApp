@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -72,7 +73,7 @@ public class PresupuestosActivity extends AppCompatActivity {
         setContentView(R.layout.reciclerview_presupuestos);
 
         //Establecemos la licencia de la aplicación
-        IAConfigurationLibrary.setAppLicense("123456789a");
+        IAConfigurationLibrary.setAppLicense("wreWa5azeq3phaxuchuc");
 
         //Obtenemos sharedPreferences
         sharedpreferences = getSharedPreferences(SHARED_PREFS_FILE, Context.MODE_PRIVATE);
@@ -167,12 +168,17 @@ public class PresupuestosActivity extends AppCompatActivity {
 
                 // --- ABRIR PARA PAGAR ---
 
+                Intent intentURL = new Intent(Intent.ACTION_VIEW);
+                intentURL.setData(Uri.parse("http://www.manomanitas.es/solicitar-presupuesto/tecnicos/"));
+                startActivity(intentURL);
+
+                /*
                 intentPago = new Intent (PresupuestosActivity.this, IAManualEntryActivity.class);
                 //intentPago = new Intent (PresupuestosActivity.this, IAWebViewEntryActivity.class); //WEB
-                intentPago.putExtra(IAConstants.EXTRA_ENVIRONMENT, IAConstants.ENVIRONMENT_INTEGRATION); //entorno de ejecucion
+                intentPago.putExtra(IAConstants.EXTRA_ENVIRONMENT, IAConstants.ENVIRONMENT_REAL); //entorno de ejecucion
                 intentPago.putExtra(IAConstants.EXTRA_MERCHANT_CODE, "335761052"); // Fuc del comercio
-                intentPago.putExtra(IAConstants.EXTRA_MERCHANT_TERMINAL,"2"); //Terminal
-                intentPago.putExtra(IAConstants.EXTRA_ORDER_CODE, "pp"); //Codigo del pedido
+                intentPago.putExtra(IAConstants.EXTRA_MERCHANT_TERMINAL,"1"); //Terminal
+                intentPago.putExtra(IAConstants.EXTRA_ORDER_CODE, "40"); //Codigo del pedido
                 intentPago.putExtra(IAConstants.EXTRA_MERCHANT_CURRENCY, currency); //codigo de moneda utilizada
                 intentPago.putExtra(IAConstants.EXTRA_OPERATION_TYPE, IAConstants.TRADITIONAL_PAY); //tipo de operacion
                 //intentPago.putExtra(IAConstants.EXTRA_OPERATION_TYPE, IAConstants.NORMAL_PAY); //tipo de operacion WEB
@@ -184,7 +190,7 @@ public class PresupuestosActivity extends AppCompatActivity {
                 intentPago.putExtra(IAConstants.EXTRA_AMOUNT, amountS); //Importe de la operacion
                 startActivityForResult(intentPago, REQUESTCODE_MANUAL_ENTRY);
                 //startActivityForResult(intentPago, REQUESTCODE_WEBVIEW_ENTRY); //WEB
-
+                */
                 ///----------------
 
                 //intentPostCompra = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, PostComprarActivity.class);
