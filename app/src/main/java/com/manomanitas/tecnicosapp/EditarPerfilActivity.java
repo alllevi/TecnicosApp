@@ -130,7 +130,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         }
     }
 
-    private boolean checkInternet(){
+    private boolean checkInternet() {
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -304,7 +304,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             mRadioView.setError(getString(R.string.error_field_required));
             focusView = mRadioView;
             cancel = true;
-        }else if (!isRadioValid(radio)) {
+        } else if (!isRadioValid(radio)) {
             mRadioView.setError(getString(R.string.error_max_radio));
             focusView = mRadioView;
             cancel = true;
@@ -331,7 +331,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             cancel = true;
         }
 
-
         boolean checked = !electricidad && !fontaneria && !cerrajero && !video && !antenista && !telefonillo && !clima && !calentador && !calefaccion && !alarma && !electro;
 
         if (checked) {
@@ -339,7 +338,6 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             focusView = tv_servicios;
             cancel = true;
         }
-
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -349,16 +347,13 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user registration attempt.
-
             boolean conexionGuardar = checkInternet();
 
             if (conexionGuardar) {
                 showProgress(true);
-                mAuthTask = new GuardarPerfilTask(email,nombre, dni, telefono, codigoPostal, radio, provincia, municipio, String.valueOf(electricidad), String.valueOf(fontaneria), String.valueOf(cerrajero), String.valueOf(video), String.valueOf(antenista), String.valueOf(telefonillo), String.valueOf(clima), String.valueOf(calentador), String.valueOf(calefaccion), String.valueOf(alarma), String.valueOf(electro), String.valueOf(aviso));
+                mAuthTask = new GuardarPerfilTask(email, nombre, dni, telefono, codigoPostal, radio, provincia, municipio, String.valueOf(electricidad), String.valueOf(fontaneria), String.valueOf(cerrajero), String.valueOf(video), String.valueOf(antenista), String.valueOf(telefonillo), String.valueOf(clima), String.valueOf(calentador), String.valueOf(calefaccion), String.valueOf(alarma), String.valueOf(electro), String.valueOf(aviso));
                 mAuthTask.execute((Void) null);
             }
-
-
         }
     }
 
@@ -379,7 +374,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
     }
 
     private boolean isRadioValid(String radio) {
-        return  Integer.valueOf(radio)<=50;
+        return Integer.valueOf(radio) <= 50;
 
     }
 
@@ -487,12 +482,10 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
         @Override
         protected Boolean doInBackground(Void... params) {
-
             try {
 
                 String url_base = sharedpreferences.getString("URL_BASE", "");
                 String id = sharedpreferences.getString("ID_TECNICO", "-1");
-
 
                 /*Tenemos que convertir los datos para realizar el paso de datos al servidor
                   true -> 1
@@ -501,53 +494,53 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
                 String notificaciones = "0";
 
-                if(mAvisos.equals("true")){
-                    notificaciones="1";
+                if (mAvisos.equals("true")) {
+                    notificaciones = "1";
                 }
 
                 StringBuilder c = new StringBuilder();
 
-                if(mElectricidad.equals("true")){
+                if (mElectricidad.equals("true")) {
                     c.append("Electricista");
                     c.append(",");
                 }
-                if(mFontaneria.equals("true")){
+                if (mFontaneria.equals("true")) {
                     c.append("Fontanero");
                     c.append(",");
                 }
-                if(mCerrajero.equals("true")){
+                if (mCerrajero.equals("true")) {
                     c.append("Cerrajero");
                     c.append(",");
                 }
-                if(mVideo.equals("true")){
+                if (mVideo.equals("true")) {
                     c.append("Videovigilancia");
                     c.append(",");
                 }
-                if(mAntenista.equals("true")){
+                if (mAntenista.equals("true")) {
                     c.append("Antenista");
                     c.append(",");
                 }
-                if(mTelefonillo.equals("true")){
+                if (mTelefonillo.equals("true")) {
                     c.append("Telefonillo");
                     c.append(",");
                 }
-                if(mClima.equals("true")){
+                if (mClima.equals("true")) {
                     c.append("Clima");
                     c.append(",");
                 }
-                if(mCalentador.equals("true")){
+                if (mCalentador.equals("true")) {
                     c.append("Calentador");
                     c.append(",");
                 }
-                if(mCalefaccion.equals("true")){
+                if (mCalefaccion.equals("true")) {
                     c.append("Calefaccion");
                     c.append(",");
                 }
-                if(mAlarma.equals("true")){
+                if (mAlarma.equals("true")) {
                     c.append("Alarma");
                     c.append(",");
                 }
-                if(melectro.equals("true")){
+                if (melectro.equals("true")) {
                     c.append("Electro");
                 }
 
@@ -555,10 +548,10 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
                 //Eliminamos si se ha quedado una "," al final de la cadena
                 String s;
-                s = categorias.substring(categorias.length()-1);
+                s = categorias.substring(categorias.length() - 1);
 
-                if(s.equals(",")){
-                    categorias = categorias.substring(0,categorias.length()-1);
+                if (s.equals(",")) {
+                    categorias = categorias.substring(0, categorias.length() - 1);
                 }
 
                 //Construimos la URL
@@ -596,16 +589,15 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
 
                 String presupuesto = response.readLine();
 
-                if(presupuesto.equals("Se actualizaron tus datos")){
+                if (presupuesto.equals("Se actualizaron tus datos")) {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
 
-
             } catch (Exception e) {
                 return false;
-            }finally {
+            } finally {
                 urlConnection.disconnect();
             }
 
@@ -651,9 +643,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
             try {
 
                 //Construimos la URL
-
                 String url_base = sharedpreferences.getString("URL_BASE", "");
-
                 StringBuilder sb = new StringBuilder();
                 sb.append(url_base);
                 sb.append("perfil.php?");
@@ -668,7 +658,7 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
                 String datosPerfil = response.readLine();
 
                 //Parseamos los datos que viene separados por comas
-                if(!datosPerfil.equals("Error")){
+                if (!datosPerfil.equals("Error")) {
                     datosArray = datosPerfil.split(",");
                     return true;
                 }
@@ -700,40 +690,38 @@ public class EditarPerfilActivity extends AppCompatActivity implements AdapterVi
                 mCodigoPostalView.setText(datosArray[4]);
                 mRadioView.setText(datosArray[5]);
 
-                if(datosArray[8].equals("1")){
+                if (datosArray[8].equals("1")) {
                     cAvisos.setChecked(true);
                 }
 
-                int contador=9; //los servicios empiezan en la posicion 9 del array
+                int contador = 9; //los servicios empiezan en la posicion 9 del array
                 while (contador < longitud) {
 
-                    if(datosArray[contador].equals("Electricista")){
+                    if (datosArray[contador].equals("Electricista")) {
                         cElectricidad.setChecked(true);
-                    } else if(datosArray[contador].equals("Fontanero")){
+                    } else if (datosArray[contador].equals("Fontanero")) {
                         cFontaneria.setChecked(true);
-                    }else if(datosArray[contador].equals("Cerrajero")){
+                    } else if (datosArray[contador].equals("Cerrajero")) {
                         cCerrajero.setChecked(true);
-                    }else if(datosArray[contador].equals("Videovigilancia")){
+                    } else if (datosArray[contador].equals("Videovigilancia")) {
                         cVideo.setChecked(true);
-                    }else if(datosArray[contador].equals("Antenista")){
+                    } else if (datosArray[contador].equals("Antenista")) {
                         cAntenista.setChecked(true);
-                    }else if(datosArray[contador].equals("Telefonillo")){
+                    } else if (datosArray[contador].equals("Telefonillo")) {
                         cTelefonillo.setChecked(true);
-                    }else if(datosArray[contador].equals("Clima")){
+                    } else if (datosArray[contador].equals("Clima")) {
                         cClima.setChecked(true);
-                    }else if(datosArray[contador].equals("Calentador")){
+                    } else if (datosArray[contador].equals("Calentador")) {
                         cCalentador.setChecked(true);
-                    }else if(datosArray[contador].equals("Calefaccion")){
+                    } else if (datosArray[contador].equals("Calefaccion")) {
                         cCalefaccion.setChecked(true);
-                    }else if(datosArray[contador].equals("Alarma")){
+                    } else if (datosArray[contador].equals("Alarma")) {
                         cAlarma.setChecked(true);
-                    }else if(datosArray[contador].equals("Electro")){
+                    } else if (datosArray[contador].equals("Electro")) {
                         cElectro.setChecked(true);
                     }
-
                     contador++;
                 }
-
             } else {
 
                 Toast.makeText(getApplicationContext(), "No se ha podido obtener la información", Toast.LENGTH_SHORT).show();

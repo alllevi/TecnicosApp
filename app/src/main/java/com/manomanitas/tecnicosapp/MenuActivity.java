@@ -51,7 +51,7 @@ public class MenuActivity extends AppCompatActivity {
         //Si no tenemos registrado un servicio de notificaciones, mandamos la solicitud
         activado = sharedpreferences.getString("GCM", "false");
 
-        if(activado.equals("false")) {
+        if (activado.equals("false")) {
 
             mRegistrationBroadcastReceiver = new BroadcastReceiver() {
                 @Override
@@ -82,7 +82,6 @@ public class MenuActivity extends AppCompatActivity {
                 startService(intent);
             }
         }
-
     }
 
     @Override
@@ -101,7 +100,7 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        if(activado.equals("false")) {
+        if (activado.equals("false")) {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
             isReceiverRegistered = false;
         }
@@ -111,13 +110,13 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(activado.equals("false")) {
+        if (activado.equals("false")) {
             registerReceiver();
         }
     }
 
-    private void registerReceiver(){
-        if(!isReceiverRegistered) {
+    private void registerReceiver() {
+        if (!isReceiverRegistered) {
             LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                     new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
             isReceiverRegistered = true;
@@ -152,7 +151,8 @@ public class MenuActivity extends AppCompatActivity {
             startActivity(intent);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "No se ha podido acceder a presupuestos", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();}
+            e.printStackTrace();
+        }
 
     }
 
@@ -161,11 +161,10 @@ public class MenuActivity extends AppCompatActivity {
         try {
             Intent intent = new Intent(this, CompradosActivity.class);
             startActivity(intent);
-        }catch (Exception e) {
+        } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "No se ha podido acceder a presupuestos comprados", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();}
-
-
+            e.printStackTrace();
+        }
     }
 
     public void onClick_miPerfil(View view) {
@@ -175,9 +174,8 @@ public class MenuActivity extends AppCompatActivity {
             startActivity(intent);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "No se ha podido acceder a editar perfil", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();}
-
-
+            e.printStackTrace();
+        }
     }
 
     public void onClick_cerrarSesion(View view) {
@@ -201,11 +199,9 @@ public class MenuActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-
-
     }
 
-    private boolean checkInternet(){
+    private boolean checkInternet() {
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -215,11 +211,10 @@ public class MenuActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Compruebe su conexión a internet", Toast.LENGTH_SHORT).show();
             return false;
-
         }
     }
 
-    private void cerrarSesion(){
+    private void cerrarSesion() {
         try {
 
             boolean conexion = checkInternet();
@@ -239,7 +234,7 @@ public class MenuActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Se ha producido un error", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
@@ -254,7 +249,6 @@ public class MenuActivity extends AppCompatActivity {
         private final String idTecnico;
 
         darDeBajaTask(String id) {
-
             idTecnico = id;
         }
 
@@ -264,7 +258,6 @@ public class MenuActivity extends AppCompatActivity {
             try {
 
                 String url_base = sharedpreferences.getString("URL_BASE", "");
-
                 StringBuilder sb = new StringBuilder();
                 sb.append(url_base);
                 sb.append("baja_tecnico.php?");
@@ -275,18 +268,12 @@ public class MenuActivity extends AppCompatActivity {
                 URL url = new URL(urlBaja);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
-
                 String line = buffer.readLine();
 
                 if (line.equals("Se ha borrado")) {
-
                     return true;
-
                 } else {
-
                     return false;
-
                 }
 
             } catch (Exception e) {
@@ -303,8 +290,7 @@ public class MenuActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             if (success) {
-
-
+                //NADA
             } else {
                 Toast.makeText(getApplicationContext(), "Se ha producido un error inesperado", Toast.LENGTH_SHORT).show();
             }

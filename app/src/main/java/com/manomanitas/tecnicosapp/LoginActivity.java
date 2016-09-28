@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -63,14 +64,12 @@ public class LoginActivity extends AppCompatActivity {
              ->Si existe entramos directamente a Menu tecnico
          */
         String id = sharedpreferences.getString("ID_TECNICO", "-1");
-        if(!id.equals("-1")){
+        if (!id.equals("-1")) {
             Intent intent = new Intent(this, MenuActivity.class);
             startActivity(intent);
             finish();
         }
 
-        //editor.putString("ID_TECNICO","25");
-        //editor.commit();
     }
 
     @Override
@@ -106,8 +105,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form_login);
         mProgressView = findViewById(R.id.login_progress_login);
-
-
     }
 
     /**
@@ -159,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
 
             boolean conexion = checkInternet();
 
-            if (conexion){
+            if (conexion) {
                 showProgress(true);
                 mAuthTask = new UserLoginTask(email, password);
                 mAuthTask.execute((Void) null);
@@ -172,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    private boolean checkInternet(){
+    private boolean checkInternet() {
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -240,42 +237,39 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
 
-             try {
+            try {
 
-                    String url_base = sharedpreferences.getString("URL_BASE", "");
+                String url_base = sharedpreferences.getString("URL_BASE", "");
+                StringBuilder sb = new StringBuilder();
+                sb.append(url_base);
+                sb.append("login.php?");
+                sb.append("email=");
+                sb.append(mEmail);
+                sb.append("&password=");
+                sb.append(mPassword);
+                String urlLogin = sb.toString();
 
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(url_base);
-                    sb.append("login.php?");
-                    sb.append("email=");
-                    sb.append(mEmail);
-                    sb.append("&password=");
-                    sb.append(mPassword);
-                    String urlLogin = sb.toString();
+                URL url = new URL(urlLogin);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader response = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
-                    URL url = new URL(urlLogin);
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                    BufferedReader response = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                String idTecnico = response.readLine();
 
-                    String idTecnico = response.readLine();
+                if (!idTecnico.equals("Error")) {
+                    Intent intent = new Intent(getBaseContext(), MenuActivity.class);
+                    startActivity(intent);
 
-                    if(!idTecnico.equals("Error")){
-                        Intent intent = new Intent(getBaseContext(), MenuActivity.class);
-                        startActivity(intent);
-
-                        //Me guardo el id del tecnico en sharedPreferences
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString("ID_TECNICO",idTecnico);
-                        editor.commit();
-                        return true;
-                    }
-
-                } catch (Exception e) {
-                    return false;
-
-                } finally {
-                    urlConnection.disconnect();
+                    //Me guardo el id del tecnico en sharedPreferences
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("ID_TECNICO", idTecnico);
+                    editor.commit();
+                    return true;
                 }
+            } catch (Exception e) {
+                return false;
+            } finally {
+                urlConnection.disconnect();
+            }
             return false;
         }
 
@@ -286,10 +280,8 @@ public class LoginActivity extends AppCompatActivity {
             if (success) {
                 finish();
             } else {
-
                 Toast.makeText(getApplicationContext(), "Email o password incorrecto", Toast.LENGTH_SHORT).show();
                 mEmailView.requestFocus();
-
             }
         }
 

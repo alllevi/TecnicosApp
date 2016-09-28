@@ -71,6 +71,7 @@ public class CompradosActivity extends AppCompatActivity {
 
         //Defino variables
         List<presupuesto> comprados;
+
         RVAdapterComprados(List<presupuesto> list_comprados) {
             this.comprados = list_comprados;
         }
@@ -154,7 +155,7 @@ public class CompradosActivity extends AppCompatActivity {
 
     }
 
-    private boolean checkInternet(){
+    private boolean checkInternet() {
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -167,7 +168,6 @@ public class CompradosActivity extends AppCompatActivity {
             return false;
         }
     }
-
 
 
     /**
@@ -243,31 +243,24 @@ public class CompradosActivity extends AppCompatActivity {
 
                 String line = buffer.readLine();
 
-                if(line.equals("0")){
-
+                if (line.equals("0")) {
                     //Mensaje error
                     return false;
-
-                } else if (line.equals("No hay presupuestos")){
-
+                } else if (line.equals("No hay presupuestos")) {
                     //Mensaje no hay presupuestos
                     return false;
 
-                } else{
-
+                } else {
                     //recogemos toda la resupuesta en una cadena
                     sb_response.append(line);
-
                     while ((line = buffer.readLine()) != null) {
                         sb_response.append(line);
                     }
-
                     String response = sb_response.toString();
 
                     //Separamos los diferentes presupuestos
                     datosArray = response.split(";_;");
-
-                    for(int i=0;i<datosArray.length;i++){
+                    for (int i = 0; i < datosArray.length; i++) {
 
                         //Obtenemos los datos de cada presupuesto
                         presupuestoArray = datosArray[i].split("~~");
@@ -275,17 +268,14 @@ public class CompradosActivity extends AppCompatActivity {
                         /*Datos devueltos
                             -> categoria, ciudad, provincia, nombre, telefono, email, descripcion, fecha
                          */
-
                         //Transformamos la fecha
                         String haceDias = formatDate(presupuestoArray[7]);
-
                         try {
                             lista_comprados.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[6], haceDias, presupuestoArray[3], presupuestoArray[4], presupuestoArray[5]));
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-
                 }
 
                 return true;
@@ -299,7 +289,7 @@ public class CompradosActivity extends AppCompatActivity {
             }
         }
 
-        private String formatDate(String fecha){
+        private String formatDate(String fecha) {
 
             SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -310,14 +300,13 @@ public class CompradosActivity extends AppCompatActivity {
                 Date dateActual = formatDate.parse(d);
 
                 long diff = dateActual.getTime() - datePresupuesto.getTime();
-
                 long diffDays = diff / (24 * 60 * 60 * 1000);
 
-                String haceDias = "Hace "+diffDays+" días";
+                String haceDias = "Hace " + diffDays + " días";
 
-                if(haceDias.equals("Hace 0 días")){
+                if (haceDias.equals("Hace 0 días")) {
                     return "Hoy";
-                } else{
+                } else {
                     return haceDias;
                 }
 

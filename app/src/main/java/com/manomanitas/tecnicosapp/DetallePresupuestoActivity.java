@@ -51,7 +51,7 @@ public class DetallePresupuestoActivity extends AppCompatActivity {
         //Establecemos los valores
         mCategoria.setText(categoria);
         mMunicipio.setText(municipio);
-        mProvincia.setText("("+provincia+")");
+        mProvincia.setText("(" + provincia + ")");
         mNombre.setText(nombre);
         mTelefono.setText(telefono);
         mEmail.setText(email);

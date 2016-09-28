@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import es.redsys.Exceptions.utils.IAErrReturnObject;
 import es.redsys.redsyssdkinapp.IAManualEntryActivity;
@@ -60,13 +61,14 @@ public class PresupuestosActivity extends AppCompatActivity {
 
     private Intent intentPago;
 
+    private String panNumberAsterisk =null;
     private String reference = null;
-    private String panNumberAsterisk = null;
     private String currency = "978";
     private static final int REQUESTCODE_MANUAL_ENTRY = 0;
     private static final int REQUESTCODE_WEBVIEW_ENTRY = 1;
 
     private List<presupuesto> listaPresupuestos = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +92,6 @@ public class PresupuestosActivity extends AppCompatActivity {
 
         RVAdapter adapter = new RVAdapter(listaPresupuestos);
         rv.setAdapter(adapter);
-
     }
 
     public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PresupuestoViewHolder> {
@@ -138,75 +139,61 @@ public class PresupuestosActivity extends AppCompatActivity {
         public void onBindViewHolder(PresupuestoViewHolder holder, final int position) {
             holder.tw_categoria.setText(presupuestos.get(position).getCategoria());
             holder.tw_municipio.setText(presupuestos.get(position).getMunicipio());
-            holder.tw_provincia.setText("("+presupuestos.get(position).getProvincia()+")");
+            holder.tw_provincia.setText("(" + presupuestos.get(position).getProvincia() + ")");
             holder.tw_averia.setText(presupuestos.get(position).getAveria());
-            //holder.tw_kilometros.setText(presupuestos.get(position).getKilometros());
+            //holder.tw_kilometros.setText(presupuestos.get(position).getKilometros()); //Aún no está definido
             holder.tw_precio.setText(presupuestos.get(position).getPrecio());
             holder.tw_hacedias.setText(presupuestos.get(position).getHaceDias());
 
             //Asignamos un listener al boton enviar propuesta
-                holder.bt_enviarPropuesta.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        enviarP(presupuestos.get(position));
-                    }
-                });
+            holder.bt_enviarPropuesta.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    enviarP(presupuestos.get(position));
+                }
+            });
 
         }
 
         /**
          * Metodo que permite pasar a la interfaz detalles prespuesto
+         *
          * @param p , presupuesto que contiene la cardview
-         * Le pasa en los extras los datos necesarios a la interfaz de detalles
+         *          Le pasa en los extras los datos necesarios a la interfaz de detalles
          */
         private void enviarP(presupuesto p) {
 
             boolean conexion = checkInternet();
 
-
             if (conexion) {
 
-                // --- ABRIR PARA PAGAR ---
+                // --- PAGAR ---
 
-                Intent intentURL = new Intent(Intent.ACTION_VIEW);
-                intentURL.setData(Uri.parse("http://www.manomanitas.es/solicitar-presupuesto/tecnicos/"));
-                startActivity(intentURL);
+                //--> Abrir navegador
+                //Intent intentURL = new Intent(Intent.ACTION_VIEW);
+                //intentURL.setData(Uri.parse("http://www.manomanitas.es/solicitar-presupuesto/tecnicos/"));
+                //startActivity(intentURL);
 
-                /*
-                intentPago = new Intent (PresupuestosActivity.this, IAManualEntryActivity.class);
-                //intentPago = new Intent (PresupuestosActivity.this, IAWebViewEntryActivity.class); //WEB
+                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyHHmmss", Locale.getDefault());
+                String orderCode = sdf.format(new Date());
+
+                intentPago = new Intent(PresupuestosActivity.this, IAManualEntryActivity.class);
+                //intentPago = new Intent (PresupuestosActivity.this, IAWebViewEntryActivity.class); // WEB
                 intentPago.putExtra(IAConstants.EXTRA_ENVIRONMENT, IAConstants.ENVIRONMENT_REAL); //entorno de ejecucion
                 intentPago.putExtra(IAConstants.EXTRA_MERCHANT_CODE, "335761052"); // Fuc del comercio
-                intentPago.putExtra(IAConstants.EXTRA_MERCHANT_TERMINAL,"1"); //Terminal
-                intentPago.putExtra(IAConstants.EXTRA_ORDER_CODE, "40"); //Codigo del pedido
+                intentPago.putExtra(IAConstants.EXTRA_MERCHANT_TERMINAL, "1"); //Terminal
+                intentPago.putExtra(IAConstants.EXTRA_ORDER_CODE, orderCode); //Codigo del pedido
                 intentPago.putExtra(IAConstants.EXTRA_MERCHANT_CURRENCY, currency); //codigo de moneda utilizada
                 intentPago.putExtra(IAConstants.EXTRA_OPERATION_TYPE, IAConstants.TRADITIONAL_PAY); //tipo de operacion
                 //intentPago.putExtra(IAConstants.EXTRA_OPERATION_TYPE, IAConstants.NORMAL_PAY); //tipo de operacion WEB
 
                 //intentPago.putExtra(IAConstants.EXTRA_DS_MERCHANT_URL_OK,"https://sis-d.redsys.es/PruebasSDF_V2Web/imode/ok.jsp"); //WEB
                 //intentPago.putExtra(IAConstants.EXTRA_DS_MERCHANT_URL_KO,"https://sis-d.redsys.es/PruebasSDF_V2Web/imode/ko.jsp"); //WEB
-                double amountS = Double.valueOf("3");
+                double amountS = Double.valueOf("100");//multiplicar por 100 el precio se define en centimos
 
                 intentPago.putExtra(IAConstants.EXTRA_AMOUNT, amountS); //Importe de la operacion
                 startActivityForResult(intentPago, REQUESTCODE_MANUAL_ENTRY);
                 //startActivityForResult(intentPago, REQUESTCODE_WEBVIEW_ENTRY); //WEB
-                */
-                ///----------------
-
-                //intentPostCompra = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, PostComprarActivity.class);
-               // startActivity(intentPostCompra);
-                //finish();
-
-                /*try {
-                    intentComprado = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, DetallePresupuestoActivity.class);
-                    intentComprado.putExtra("categoria", p.getCategoria());
-                    intentComprado.putExtra("municipio", p.getMunicipio());
-                    intentComprado.putExtra("provincia", p.getProvincia());
-                    intentComprado.putExtra("nombre", p.getNombre());
-                    intentComprado.putExtra("telefono", p.getTelefono());
-                    intentComprado.putExtra("email", p.getEmail());
-                    intentComprado.putExtra("descripcion", p.getAveria());
-                }*/
 
             }
         }
@@ -220,48 +207,68 @@ public class PresupuestosActivity extends AppCompatActivity {
         public void onAttachedToRecyclerView(RecyclerView recyclerView) {
             super.onAttachedToRecyclerView(recyclerView);
         }
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-            if (requestCode == REQUESTCODE_MANUAL_ENTRY) {
-                IAPetitionResponse petitionResponse = data.getExtras().getParcelable(IAConstants.EXTRA_PETITION_RESPONSE);
+        if (requestCode == REQUESTCODE_MANUAL_ENTRY) {
+            IAPetitionResponse petitionResponse = data.getExtras().getParcelable(IAConstants.EXTRA_PETITION_RESPONSE);
 
-                  if (resultCode == RESULT_OK) {
-                    Toast.makeText(getApplicationContext(), "Payment finish OK", Toast.LENGTH_LONG).show();
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(getApplicationContext(), "Payment finish OK", Toast.LENGTH_LONG).show();
 
+                showResult(petitionResponse);
+
+                //Extract reference if is posible
+                String reference = petitionResponse.getResponseIdentifier();
+                String pan = petitionResponse.getResponseCardNumber();
+                if (reference != null) {
+                    this.reference = reference;
+                }
+                if (pan != null) {
+                    this.panNumberAsterisk = pan;
+                }
+
+                /*
+                 * Una vez se ha dado el OK del pago, salvar el pago en el servidor (mediante tarea Asincrona)
+                 * y abrir detallePresupuestos con la informacion recibida del servidor
+                 * enviar al servidor el id del presupuesto y el id del tecnico
+                 *
+                 *
+
+                //Salvar BD y recibir datos de objeto comprado en objeto presupuesto
+
+                try {
+                    intentComprado = new Intent(com.manomanitas.tecnicosapp.PresupuestosActivity.this, DetallePresupuestoActivity.class);
+                    intentComprado.putExtra("categoria", presupuesto.getCategoria());
+                    intentComprado.putExtra("municipio", presupuesto.getMunicipio());
+                    intentComprado.putExtra("provincia", presupuesto.getProvincia());
+                    intentComprado.putExtra("nombre", presupuesto.getNombre());
+                    intentComprado.putExtra("telefono", presupuesto.getTelefono());
+                    intentComprado.putExtra("email", presupuesto.getEmail());
+                    intentComprado.putExtra("descripcion", presupuesto.getAveria());
+                }*/
+
+            }
+            if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(), "Canceled by user.", Toast.LENGTH_LONG).show();
+            }
+            if (resultCode == IAConstants.ACTIVITY_RESULT_NO_VALID_PAYMENT) {
+                if (petitionResponse != null) {
                     showResult(petitionResponse);
-
-                    //Extract reference if is posible
-                    String reference = petitionResponse.getResponseIdentifier();
-                    String pan = petitionResponse.getResponseCardNumber();
-                    if (reference != null) {
-                        this.reference = reference;
-                    }
-                    if (pan != null) {
-                        this.panNumberAsterisk = pan;
-                    }
-                }
-                if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(getApplicationContext(), "Canceled by user.", Toast.LENGTH_LONG).show();
-                }
-                if (resultCode == IAConstants.ACTIVITY_RESULT_NO_VALID_PAYMENT) {
-                    if (petitionResponse != null) {
-                        showResult(petitionResponse);
-                    } else {
-                        Toast.makeText(getApplicationContext(), "No valid payment response null", Toast.LENGTH_LONG).show();
-                    }
-                }
-                if (resultCode == IAConstants.ACTIVITY_RESULT_ERR) {
-                    IAErrReturnObject err = (IAErrReturnObject) data.getExtras().getSerializable(IAConstants.EXTRA_PETITION_RESPONSE_ERROR);
-                    Log.i("PaymentResult", "ERROR in Payment: " + err.getErrorCode());
-                    Toast.makeText(getApplicationContext(), "No valid payment response "+ err.getErrorCode(), Toast.LENGTH_LONG).show();
-
+                } else {
+                    Toast.makeText(getApplicationContext(), "No valid payment response null", Toast.LENGTH_LONG).show();
                 }
             }
+            if (resultCode == IAConstants.ACTIVITY_RESULT_ERR) {
+                IAErrReturnObject err = (IAErrReturnObject) data.getExtras().getSerializable(IAConstants.EXTRA_PETITION_RESPONSE_ERROR);
+                Log.i("PaymentResult", "ERROR in Payment: " + err.getErrorCode());
+                Toast.makeText(getApplicationContext(), "No valid payment response " + err.getErrorCode(), Toast.LENGTH_LONG).show();
+
+            }
         }
+    }
 
     private void showResult(final IAPetitionResponse petitionResponse) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -309,7 +316,7 @@ public class PresupuestosActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkInternet(){
+    private boolean checkInternet() {
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -319,7 +326,6 @@ public class PresupuestosActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Compruebe su conexión a internet", Toast.LENGTH_SHORT).show();
             return false;
-
         }
     }
 
@@ -396,18 +402,13 @@ public class PresupuestosActivity extends AppCompatActivity {
 
                 String line = buffer.readLine();
 
-                if(line.equals("Error")){
-
+                if (line.equals("Error")) {
                     //Mensaje error
                     return false;
-
-                } else if (line.equals("No hay presupuestos")){
-
+                } else if (line.equals("No hay presupuestos")) {
                     //Mensaje error (falta si devuelve un 0)
                     return false;
-
-                } else{
-
+                } else {
                     //recogemos toda la resupuesta en una cadena
                     sb_response.append(line);
 
@@ -420,7 +421,7 @@ public class PresupuestosActivity extends AppCompatActivity {
                     //Separamos los diferentes presupuestos
                     datosArray = response.split(";_;");
 
-                    for(int i=0;i<datosArray.length;i++){
+                    for (int i = 0; i < datosArray.length; i++) {
 
                         //Obtenemos la informacion por separado de cada presupuesto
                         presupuestoArray = datosArray[i].split("~~");
@@ -433,13 +434,12 @@ public class PresupuestosActivity extends AppCompatActivity {
                         String haceDias = formatDate(presupuestoArray[5]);
 
                         try {
-                            listaPresupuestos.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[3], presupuestoArray[4],presupuestoArray[6], haceDias));
+                            listaPresupuestos.add(new presupuesto(presupuestoArray[0], presupuestoArray[1], presupuestoArray[2], presupuestoArray[3], presupuestoArray[4], presupuestoArray[6], haceDias));
 
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-
                 }
 
                 return true;
@@ -454,7 +454,7 @@ public class PresupuestosActivity extends AppCompatActivity {
 
         }
 
-        private String formatDate(String fecha){
+        private String formatDate(String fecha) {
 
             SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -465,14 +465,12 @@ public class PresupuestosActivity extends AppCompatActivity {
                 Date dateActual = formatDate.parse(d);
 
                 long diff = dateActual.getTime() - datePresupuesto.getTime();
-
                 long diffDays = diff / (24 * 60 * 60 * 1000);
+                String haceDias = "Hace " + diffDays + " días";
 
-                String haceDias = "Hace "+diffDays+" días";
-
-                if(haceDias.equals("Hace 0 días")){
+                if (haceDias.equals("Hace 0 días")) {
                     return "Hoy";
-                } else{
+                } else {
                     return haceDias;
                 }
 
@@ -487,8 +485,7 @@ public class PresupuestosActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
             if (success) {
-
-
+                //NADA
             } else {
                 Toast.makeText(getApplicationContext(), "No hay presupuestos para mostrar", Toast.LENGTH_SHORT).show();
             }
